@@ -38,7 +38,6 @@ class ProductAdminController
 
     public function editForm(string $name): void
     {
-        $name = urldecode($name);
         $product = $this->productModel->findByName($name);
         $types = $this->productModel->getAllTypes();
 
@@ -66,7 +65,6 @@ class ProductAdminController
 
     public function delete(string $name): void
     {
-        $name = urldecode($name);
         $this->productModel->delete($name);
         header('Location: /admin/producten');
         exit;

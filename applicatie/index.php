@@ -57,7 +57,7 @@ $router->post('/admin/producten/create', function () {
 
 $router->get('/admin/producten/bewerken/{name}', function ($name) {
     Auth::requirePersonnel();
-    (new ProductAdminController())->editForm($name);
+    (new ProductAdminController())->editForm(urldecode($name));
 });
 
 $router->post('/admin/producten/update', function () {
@@ -67,7 +67,7 @@ $router->post('/admin/producten/update', function () {
 
 $router->get('/admin/producten/verwijderen/{name}', function ($name) {
     Auth::requirePersonnel();
-    (new ProductAdminController())->delete($name);
+    (new ProductAdminController())->delete(urldecode($name));
 });
 
 $router->dispatch();

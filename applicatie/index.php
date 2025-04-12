@@ -2,118 +2,72 @@
 session_start();
 
 require_once __DIR__.'/core/Auth.php';
+require_once __DIR__.'/core/Router.php';
+require_once __DIR__.'/controllers/ProductController.php';
+require_once __DIR__.'/controllers/AuthController.php';
+require_once __DIR__.'/controllers/OrderController.php';
+require_once __DIR__.'/controllers/CartController.php';
+require_once __DIR__.'/controllers/OrderHistoryController.php';
+require_once __DIR__.'/controllers/AdminOrderController.php';
+require_once __DIR__.'/controllers/UserAdminController.php';
+require_once __DIR__.'/controllers/ProductAdminController.php';
 
-$uri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-$method = $_SERVER['REQUEST_METHOD'];
+$router = new Router();
 
-switch ($uri) {
-    case '/':
-    case '/index.php':
-        require_once 'controllers/ProductController.php';
-        $controller = new ProductController();
-        $controller->index();
-        break;
+// Publieke routes
+$router->get('/', fn () => (new ProductController())->index());
+$router->post('/add-to-cart', fn () => (new ProductController())->addToCart());
 
-    case '/add-to-cart':
-        require_once 'controllers/ProductController.php';
-        $controller = new ProductController();
-        $controller->addToCart(); // werkt via POST
-        break;
+$router->get('/login', fn () => (new AuthController())->loginForm());
+$router->post('/login', fn () => (new AuthController())->handleLogin());
+$router->get('/logout', fn () => (new AuthController())->logout());
 
-    case '/login':
-        require_once 'controllers/AuthController.php';
-        $controller = new AuthController();
-        if ($method === 'POST') {
-            $controller->handleLogin();
-        } else {
-            $controller->loginForm();
-        }
-        break;
+$router->get('/registreren', fn () => (new AuthController())->registerForm());
+$router->post('/registreren', fn () => (new AuthController())->handleRegistration());
 
-    case '/logout':
-        require_once 'controllers/AuthController.php';
-        $controller = new AuthController();
-        $controller->logout();
-        break;
+$router->get('/nieuwe-bestelling', fn () => (new OrderController())->addProductsView());
+$router->get('/winkelmandje', fn () => (new CartController())->index());
+$router->get('/mijn-bestellingen', fn () => (new OrderHistoryController())->index());
 
-    case '/registreren':
-        require_once 'controllers/AuthController.php';
-        $controller = new AuthController();
-        if ($method === 'POST') {
-            $controller->handleRegistration();
-        } else {
-            $controller->registerForm();
-        }
-        break;
+// Admin-only routes
+$router->get('/admin/bestellingen', function () {
+    Auth::requirePersonnel();
+    (new AdminOrderController())->index();
+});
 
-    case '/nieuwe-bestelling':
-        require_once 'controllers/OrderController.php';
-        $controller = new OrderController();
-        $controller->addProductsView();
-        break;
+$router->get('/admin/gebruikers', function () {
+    Auth::requirePersonnel();
+    (new UserAdminController())->index();
+});
 
-    case '/winkelmandje':
-        require_once 'controllers/CartController.php';
-        (new CartController())->index();
-        break;
+$router->get('/admin/producten', function () {
+    Auth::requirePersonnel();
+    (new ProductAdminController())->index();
+});
 
-    case '/mijn-bestellingen':
-        require_once 'controllers/OrderHistoryController.php';
-        (new OrderHistoryController())->index();
-        break;
-    case '/admin/bestellingen':
-        require_once 'controllers/AdminOrderController.php';
-        Auth::requirePersonnel();
-        (new AdminOrderController())->index();
-        break;
+$router->get('/admin/producten/toevoegen', function () {
+    Auth::requirePersonnel();
+    (new ProductAdminController())->createForm();
+});
 
-    case '/admin/producten':
-        require_once 'controllers/ProductAdminController.php';
-        Auth::requirePersonnel();
-        (new ProductAdminController())->index();
-        break;
+$router->post('/admin/producten/create', function () {
+    Auth::requirePersonnel();
+    (new ProductAdminController())->store();
+});
 
-    case '/admin/gebruikers':
-        require_once 'controllers/UserAdminController.php';
-        Auth::requirePersonnel();
-        (new UserAdminController())->index();
-        break;
+$router->get('/admin/producten/bewerken/{name}', function ($name) {
+    Auth::requirePersonnel();
+    (new ProductAdminController())->editForm($name);
+});
 
-    // Product toevoegen
-    case '/admin/producten/toevoegen':
-        require_once 'controllers/ProductAdminController.php';
-        Auth::requirePersonnel();
-        (new ProductAdminController())->createForm();
-        break;
+$router->post('/admin/producten/update', function () {
+    Auth::requirePersonnel();
+    (new ProductAdminController())->update();
+});
 
-    case '/admin/producten/create':
-        require_once 'controllers/ProductAdminController.php';
-        Auth::requirePersonnel();
-        (new ProductAdminController())->store();
-        break;
+$router->get('/admin/producten/verwijderen/{name}', function ($name) {
+    Auth::requirePersonnel();
+    (new ProductAdminController())->delete($name);
+});
 
-    // Product bewerken
-    case '/admin/producten/bewerken':
-        require_once 'controllers/ProductAdminController.php';
-        Auth::requirePersonnel();
-        (new ProductAdminController())->editForm();
-        break;
-
-    case '/admin/producten/update':
-        require_once 'controllers/ProductAdminController.php';
-        Auth::requirePersonnel();
-        (new ProductAdminController())->update();
-        break;
-
-    // Verwijderen
-    case '/admin/producten/verwijderen':
-        require_once 'controllers/ProductAdminController.php';
-        Auth::requirePersonnel();
-        (new ProductAdminController())->delete();
-        break;
-
-    default:
-        http_response_code(404);
-        include 'views/errors/404.php'; // netjes aparte view
-        break;
-}
+$router->dispatch();

@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__ . '/../models/Product.php';
+require_once __DIR__.'/../models/Product.php';
 
 class ProductAdminController
 {
@@ -13,13 +13,13 @@ class ProductAdminController
     public function index(): void
     {
         $products = $this->productModel->getAllWithType();
-        include __DIR__ . '/../views/admin/products.php';
+        include __DIR__.'/../views/admin/products.php';
     }
 
     public function createForm(): void
     {
         $types = $this->productModel->getAllTypes();
-        include __DIR__ . '/../views/admin/product_form.php';
+        include __DIR__.'/../views/admin/product_form.php';
     }
 
     public function store(): void
@@ -36,18 +36,18 @@ class ProductAdminController
         exit;
     }
 
-    public function editForm(): void
+    public function editForm(string $name): void
     {
-        $name = $_GET['name'] ?? '';
+        $name = urldecode($name);
         $product = $this->productModel->findByName($name);
         $types = $this->productModel->getAllTypes();
 
-        if (!$product) {
+        if (! $product) {
             echo "Product niet gevonden.";
             exit;
         }
 
-        include __DIR__ . '/../views/admin/product_form.php';
+        include __DIR__.'/../views/admin/product_form.php';
     }
 
     public function update(): void
@@ -64,14 +64,10 @@ class ProductAdminController
         exit;
     }
 
-    public function delete(): void
+    public function delete(string $name): void
     {
-        $name = $_GET['name'] ?? '';
-
-        if ($name) {
-            $this->productModel->delete($name);
-        }
-
+        $name = urldecode($name);
+        $this->productModel->delete($name);
         header('Location: /admin/producten');
         exit;
     }

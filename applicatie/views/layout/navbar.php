@@ -5,10 +5,10 @@ $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
 $isLoggedIn = Auth::isLoggedIn();
 $isPersonnel = Auth::isPersonnel();
 
-$user = Auth::user();
-$firstName = htmlspecialchars($user['first_name'] ?? '');
-$lastName = htmlspecialchars($user['last_name'] ?? '');
-$role = htmlspecialchars($user['role'] ?? '');
+$loggedInUser = Auth::user();
+$firstName = htmlspecialchars($loggedInUser['first_name'] ?? '');
+$lastName = htmlspecialchars($loggedInUser['last_name'] ?? '');
+$role = htmlspecialchars($loggedInUser['role'] ?? '');
 ?>
 
 <nav class="main-navbar">

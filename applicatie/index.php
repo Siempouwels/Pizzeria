@@ -40,6 +40,21 @@ $router->get('/admin/gebruikers', function () {
     (new UserAdminController())->index();
 });
 
+$router->get('/admin/gebruikers/bewerken/{username}', function ($username) {
+    Auth::requirePersonnel();
+    (new UserAdminController())->editForm(urldecode($username));
+});
+
+$router->post('/admin/gebruikers/update', function () {
+    Auth::requirePersonnel();
+    (new UserAdminController())->update();
+});
+
+$router->get('/admin/gebruikers/verwijderen/{username}', function ($username) {
+    Auth::requirePersonnel();
+    (new UserAdminController())->delete(urldecode($username));
+});
+
 $router->get('/admin/producten', function () {
     Auth::requirePersonnel();
     (new ProductAdminController())->index();

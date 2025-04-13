@@ -13,13 +13,13 @@ class ProductAdminController
     public function index(): void
     {
         $products = $this->productModel->getAllWithType();
-        include __DIR__.'/../views/admin/products.php';
+        include __DIR__.'/../views/admin/product/index.php';
     }
 
     public function createForm(): void
     {
         $types = $this->productModel->getAllTypes();
-        include __DIR__.'/../views/admin/product_form.php';
+        include __DIR__.'/../views/admin/product/form.php';
     }
 
     public function store(): void
@@ -46,7 +46,7 @@ class ProductAdminController
             exit;
         }
 
-        include __DIR__.'/../views/admin/product_form.php';
+        include __DIR__.'/../views/admin/product/form.php';
     }
 
     public function update(): void

@@ -13,7 +13,7 @@ class UserAdminController
     public function index(): void
     {
         $users = $this->userModel->getAll();
-        include __DIR__.'/../views/admin/users.php';
+        include __DIR__.'/../views/admin/user/index.php';
     }
 
     public function editForm(string $username): void
@@ -24,7 +24,7 @@ class UserAdminController
             echo "Gebruiker niet gevonden.";
             return;
         }
-        include __DIR__.'/../views/admin/user_form.php';
+        include __DIR__.'/../views/admin/user/form.php';
     }
 
     public function update(): void

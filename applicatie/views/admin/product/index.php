@@ -1,5 +1,3 @@
-<?php require_once __DIR__.'/../../core/Auth.php';
-Auth::ensureSession(); ?>
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -11,7 +9,7 @@ Auth::ensureSession(); ?>
 </head>
 
 <body>
-    <?php include __DIR__.'/../layout/navbar.php'; ?>
+    <?php include __DIR__.'/../../layout/navbar.php'; ?>
 
     <div class="container">
         <h2>Productbeheer</h2>

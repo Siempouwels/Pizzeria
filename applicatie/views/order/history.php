@@ -21,10 +21,15 @@
         <?php else : ?>
             <?php foreach ($orders as $order) : ?>
                 <div class="order">
-                    <h3>Bestelling #<?= $order['order_id'] ?> (<?= date('d-m-Y H:i', strtotime($order['datetime'])) ?>)</h3>
-                    <p><strong>Status:</strong> <?= htmlspecialchars($order['status']) ?></p>
-                    <p><strong>Naam:</strong> <?= htmlspecialchars($order['client_name']) ?></p>
-                    <p><strong>Adres:</strong> <?= htmlspecialchars($order['address']) ?></p>
+                    <h3>
+                        Bestelling #<?= htmlspecialchars((string) $order['order_id']) ?>
+                        (<?= date('d-m-Y H:i', strtotime($order['datetime'])) ?>)
+                    </h3>
+
+                    <p><strong>Status:</strong> <?= isset($order['status']) ? htmlspecialchars($order['status']) : '' ?></p>
+                    <p><strong>Naam:</strong> <?= isset($order['client_name']) ? htmlspecialchars($order['client_name']) : '' ?>
+                    </p>
+                    <p><strong>Adres:</strong> <?= isset($order['address']) ? htmlspecialchars($order['address']) : '' ?></p>
 
                     <?php if (! empty($orderItems[$order['order_id']])) : ?>
                         <table>
@@ -44,10 +49,10 @@
                                     $subtotaal += $totaal;
                                     ?>
                                     <tr>
-                                        <td><?= htmlspecialchars($item['item_name']) ?></td>
-                                        <td><?= $item['quantity'] ?></td>
-                                        <td>€<?= number_format($item['price'], 2, ',', '.') ?></td>
-                                        <td>€<?= number_format($totaal, 2, ',', '.') ?></td>
+                                        <td><?= isset($item['item_name']) ? htmlspecialchars($item['item_name']) : '' ?></td>
+                                        <td><?= (int) $item['quantity'] ?></td>
+                                        <td>€<?= number_format((float) $item['price'], 2, ',', '.') ?></td>
+                                        <td>€<?= number_format((float) $totaal, 2, ',', '.') ?></td>
                                     </tr>
                                 <?php endforeach; ?>
                                 <tr>

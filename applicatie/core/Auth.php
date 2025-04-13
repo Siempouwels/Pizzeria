@@ -11,13 +11,11 @@ class Auth
 
     public static function isLoggedIn(): bool
     {
-        self::ensureSession();
         return isset($_SESSION['username']);
     }
 
     public static function isPersonnel(): bool
     {
-        self::ensureSession();
         return isset($_SESSION['role']) && $_SESSION['role'] === 'Personnel';
     }
 
@@ -41,8 +39,6 @@ class Auth
 
     public static function user(): ?array
     {
-        self::ensureSession();
-
         if (! self::isLoggedIn()) {
             return null;
         }

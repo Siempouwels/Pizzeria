@@ -3,7 +3,7 @@ require_once __DIR__.'/../models/Product.php';
 
 class OrderController
 {
-    public function addProductsView(): void
+    public function index(): void
     {
         $errors = [];
         $success = false;
@@ -35,4 +35,34 @@ class OrderController
 
         include __DIR__.'/../views/order/add_products.php';
     }
+
+    public function addProductsToCart(): void
+    {
+        $errors = [];
+        $success = false;
+        $productModel = new Product();
+
+        if (isset($_POST['aantal']) && is_array($_POST['aantal'])) {
+            foreach ($_POST['aantal'] as $product => $qty) {
+                $qty = intval($qty);
+                if ($qty > 0) {
+                    $_SESSION['cart'][$product] = ($_SESSION['cart'][$product] ?? 0) + $qty;
+                    $success = true;
+                }
+            }
+
+            if (! $success) {
+                $errors[] = "⚠️ Geen producten toegevoegd. Voer minstens 1 hoeveelheid > 0 in.";
+            }
+        } else {
+            $errors[] = "⚠️ Ongeldige invoer.";
+        }
+
+        // Toon opnieuw het formulier met eventueel feedback
+
+        $items = $productModel->getAll();
+
+        include __DIR__.'/../views/order/add_products.php';
+    }
+
 }

@@ -1,5 +1,4 @@
 <?php
-session_start();
 
 require_once __DIR__.'/core/Auth.php';
 require_once __DIR__.'/core/Router.php';
@@ -12,6 +11,7 @@ require_once __DIR__.'/controllers/AdminOrderController.php';
 require_once __DIR__.'/controllers/UserAdminController.php';
 require_once __DIR__.'/controllers/ProductAdminController.php';
 
+Auth::ensureSession();
 $router = new Router();
 
 // Publieke routes
@@ -25,8 +25,12 @@ $router->get('/logout', fn () => (new AuthController())->logout());
 $router->get('/registreren', fn () => (new AuthController())->registerForm());
 $router->post('/registreren', fn () => (new AuthController())->handleRegistration());
 
-$router->get('/nieuwe-bestelling', fn () => (new OrderController())->addProductsView());
+$router->get('/nieuwe-bestelling', fn () => (new OrderController())->index());
+$router->post('/nieuwe-bestelling', fn () => (new OrderController())->addProductsToCart());
 $router->get('/winkelmandje', fn () => (new CartController())->index());
+$router->post('/cart/update-item', fn () => (new CartController())->updateItem());
+$router->post('/cart/clear', fn () => (new CartController())->clearCart());
+$router->post('/cart/checkout', fn () => (new CartController())->checkout());
 $router->get('/mijn-bestellingen', fn () => (new OrderHistoryController())->index());
 
 // Admin-only routes

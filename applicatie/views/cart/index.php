@@ -1,5 +1,3 @@
-<?php if (session_status() === PHP_SESSION_NONE)
-    session_start(); ?>
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -16,7 +14,7 @@
     <div class="container">
         <h2>Winkelmandje</h2>
 
-        <?php if ($success) : ?>
+        <?php if (! empty($success)) : ?>
             <p class="success">✅ Bestelling succesvol geplaatst!</p>
         <?php endif; ?>
 
@@ -27,7 +25,7 @@
         <?php if (empty($_SESSION['cart'])) : ?>
             <p>Je winkelmandje is leeg.</p>
         <?php else : ?>
-            <form method="post">
+            <form method="post" action="/cart/update-item">
                 <table>
                     <thead>
                         <tr>
@@ -35,7 +33,6 @@
                             <th>Aantal</th>
                             <th>Prijs per stuk</th>
                             <th>Totaal</th>
-                            <th>Actie</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -49,43 +46,48 @@
                             <tr>
                                 <td><?= htmlspecialchars($product) ?></td>
                                 <td>
-                                    <input type="number" name="quantity" value="<?= $qty ?>" min="0">
-                                    <input type="hidden" name="product" value="<?= htmlspecialchars($product) ?>">
+                                    <input type="number" name="quantity[<?= htmlspecialchars($product) ?>]" value="<?= $qty ?>"
+                                        min="0" required style="width: 60px;">
                                 </td>
                                 <td>€<?= number_format($prijs, 2, ',', '.') ?></td>
                                 <td>€<?= number_format($sub, 2, ',', '.') ?></td>
-                                <td>
-                                    <button type="submit" name="update_item">Bijwerken</button>
-                                </td>
                             </tr>
                         <?php endforeach; ?>
                         <tr>
                             <td colspan="3"><strong>Totaal:</strong></td>
                             <td><strong>€<?= number_format($totaal, 2, ',', '.') ?></strong></td>
-                            <td></td>
                         </tr>
                     </tbody>
                 </table>
+                <br>
+                <button type="submit">Winkelmandje bijwerken</button>
             </form>
 
-            <form method="post" style="margin-top: 20px;">
-                <button type="submit" name="clear_cart" style="background-color: #d9534f;">Winkelmandje leegmaken</button>
+            <form method="post" action="/cart/clear" style="margin-top: 20px;">
+                <button type="submit" style="background-color: #d9534f;">Winkelmandje leegmaken</button>
             </form>
 
             <h3>Bestelling plaatsen</h3>
-            <form method="post">
-                <?php if (! isset($_SESSION['username'])) : ?>
-                    <label for="first_name">Voornaam:</label>
-                    <input type="text" name="first_name" id="first_name" required><br><br>
+            <form method="post" action="/cart/checkout">
+                <?php
+                $isLoggedIn = Auth::isLoggedIn();
+                $user = Auth::user();
+                $firstName = $user['first_name'] ?? ($_POST['first_name'] ?? '');
+                $lastName = $user['last_name'] ?? ($_POST['last_name'] ?? '');
+                $address = $_POST['address'] ?? ($user['address'] ?? '');
+                ?>
 
-                    <label for="last_name">Achternaam:</label>
-                    <input type="text" name="last_name" id="last_name" required><br><br>
+                <label for="first_name">Voornaam:</label>
+                <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($firstName) ?>"
+                    <?= $isLoggedIn ? 'readonly' : 'required' ?>><br><br>
 
-                    <label for="address">Adres:</label>
-                    <input type="text" name="address" id="address" required><br><br>
-                <?php endif; ?>
+                <label for="last_name">Achternaam:</label>
+                <input type="text" id="last_name" name="last_name" value="<?= htmlspecialchars($lastName) ?>" <?= $isLoggedIn ? 'readonly' : 'required' ?>><br><br>
 
-                <button type="submit" name="confirm_order">Bestelling plaatsen</button>
+                <label for="address">Adres:</label>
+                <input type="text" id="address" name="address" value="<?= htmlspecialchars($address) ?>" required><br><br>
+
+                <button type="submit">Bestelling plaatsen</button>
             </form>
         <?php endif; ?>
     </div>

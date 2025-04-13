@@ -31,7 +31,7 @@ class ProductController
             $ingredients = [];
         }
 
-        include __DIR__.'/../views/products.php';
+        include __DIR__.'/../views/product/index.php';
     }
 
     public function addToCart(): void

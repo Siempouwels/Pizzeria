@@ -47,6 +47,6 @@ class Router
 
         // Geen match gevonden
         http_response_code(404);
-        include 'views/errors/404.php';
+        include __DIR__.'/../views/error/404.php'; 
     }
 }

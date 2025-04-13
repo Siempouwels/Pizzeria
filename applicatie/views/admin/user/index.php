@@ -1,6 +1,3 @@
-<?php
-Auth::ensureSession();
-?>
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -12,7 +9,7 @@ Auth::ensureSession();
 </head>
 
 <body>
-    <?php include __DIR__.'/../layout/navbar.php'; ?>
+    <?php include __DIR__.'/../../layout/navbar.php'; ?>
 
     <div class="container">
         <h2>Gebruikersbeheer</h2>
@@ -36,7 +33,8 @@ Auth::ensureSession();
                         <tr>
                             <td><?= htmlspecialchars($user['username'] ?? '') ?></td>
                             <td><?= htmlspecialchars($user['first_name'] ?? '') ?>
-                                <?= htmlspecialchars($user['last_name'] ?? '') ?></td>
+                                <?= htmlspecialchars($user['last_name'] ?? '') ?>
+                            </td>
                             <td><?= htmlspecialchars($user['address'] ?? '') ?></td>
                             <td><?= htmlspecialchars($user['role'] ?? '') ?></td>
                             <td>

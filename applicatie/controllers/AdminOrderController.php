@@ -9,6 +9,6 @@ class AdminOrderController
         $orders = $orderModel->getAllOrders();
         $orderItems = $orderModel->getOrderItems($orders);
 
-        include __DIR__.'/../views/admin/orders.php';
+        include __DIR__.'/../views/admin/order/index.php';
     }
 }

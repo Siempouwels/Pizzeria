@@ -77,7 +77,7 @@ echo ' Automatisch formatteren met phpcbf (PSR-1)            '
 echo '-------------------------------------------------------'
 
 if command -v phpcbf >/dev/null 2>&1; then
-    phpcbf --standard=PSR12 /applicatie/ || echo "⚠️  Kan niet alles automatisch fixen"
+    phpcbf --standard=PSR12 --ignore=vendor/* /applicatie/ || echo "⚠️  Kan niet alles automatisch fixen"
 else
     echo "❌ phpcbf is niet beschikbaar"
 fi
@@ -88,7 +88,7 @@ echo ' Code check met PHP_CodeSniffer (PSR-12)              '
 echo '-------------------------------------------------------'
 
 if command -v phpcs >/dev/null 2>&1; then
-    phpcs --standard=PSR12 /applicatie/ || echo "❌ Fouten gevonden bij PSR-12 controle"
+    phpcs --standard=PSR12 --ignore=vendor/* /applicatie/ || echo "❌ Fouten gevonden bij PSR-12 controle"
 else
     echo "⚠️  phpcs is niet beschikbaar in de container"
 fi

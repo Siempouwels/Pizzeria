@@ -1,6 +1,10 @@
 <?php
 
-$db = \Core\Database::connect();
+require_once __DIR__ . '/../../applicatie/core/Database.php';
+
+use Core\Database;
+
+$db = Database::connect();
 $stmt = $db->query("SELECT username, password FROM [User]");
 $users = $stmt->fetchAll();
 

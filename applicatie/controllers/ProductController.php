@@ -1,7 +1,14 @@
 <?php
 
+namespace App\Controllers;
+
+
 require_once __DIR__ . '/../models/Product.php';
 require_once __DIR__ . '/../models/Ingredient.php';
+
+use App\Models\Product;
+use App\Models\Ingredient;
+use PDOException;
 
 class ProductController
 {

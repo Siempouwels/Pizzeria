@@ -1,5 +1,10 @@
 <?php
 
+namespace Core;
+
+use PDO;
+use PDOException;
+
 class Database
 {
     private const DB_HOST = 'database_server';

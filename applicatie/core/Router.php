@@ -1,5 +1,9 @@
 <?php
 
+namespace Core;
+
+use Core\Auth;
+
 class Router
 {
     private array $routes = [];
@@ -28,7 +32,7 @@ class Router
         if (isset($routesForMethod[$uri])) {
             if ($method === 'POST') {
                 $csrfToken = $_POST['csrf_token'] ?? '';
-                if (! \Auth::verifyCsrfToken($csrfToken)) {
+                if (! Auth::verifyCsrfToken($csrfToken)) {
                     http_response_code(403);
                     echo "Ongeldige CSRF-token.";
                     exit;
@@ -46,7 +50,7 @@ class Router
             if (preg_match($pattern, $uri, $matches)) {
                 if ($method === 'POST') {
                     $csrfToken = $_POST['csrf_token'] ?? '';
-                    if (! \Auth::verifyCsrfToken($csrfToken)) {
+                    if (! Auth::verifyCsrfToken($csrfToken)) {
                         http_response_code(403);
                         echo "Ongeldige CSRF-token.";
                         exit;

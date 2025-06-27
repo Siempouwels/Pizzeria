@@ -1,5 +1,9 @@
 <?php
 
+namespace App\Controllers;
+
+use App\Models\User;
+
 require_once __DIR__ . '/../models/User.php';
 
 class UserAdminController

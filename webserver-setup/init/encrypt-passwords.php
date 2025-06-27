@@ -1,5 +1,5 @@
 <?php
-require_once '/applicatie/core/Database.php';
+use Core\Database;
 
 $db = Database::connect();
 $stmt = $db->query("SELECT username, password FROM [User]");

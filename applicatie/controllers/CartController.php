@@ -1,6 +1,9 @@
 <?php
 
-require_once __DIR__ . '/../models/Cart.php';
+namespace App\Controllers;
+
+use App\Models\Cart;
+use Core\Auth;
 
 class CartController
 {

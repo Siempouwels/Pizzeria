@@ -1,5 +1,7 @@
 <?php
 
+namespace Core;
+
 class Auth
 {
     public static function ensureSession(): void

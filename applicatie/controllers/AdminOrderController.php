@@ -1,6 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../models/Order.php';
+namespace App\Controllers;
+
+use App\Models\Order;
 
 class AdminOrderController
 {

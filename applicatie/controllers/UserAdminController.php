@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../models/User.php';
+
+require_once __DIR__ . '/../models/User.php';
 
 class UserAdminController
 {
@@ -13,7 +14,7 @@ class UserAdminController
     public function index(): void
     {
         $users = $this->userModel->getAll();
-        include __DIR__.'/../views/admin/user/index.php';
+        include __DIR__ . '/../views/admin/user/index.php';
     }
 
     public function editForm(string $username): void
@@ -24,7 +25,7 @@ class UserAdminController
             echo "Gebruiker niet gevonden.";
             return;
         }
-        include __DIR__.'/../views/admin/user/form.php';
+        include __DIR__ . '/../views/admin/user/form.php';
     }
 
     public function update(): void

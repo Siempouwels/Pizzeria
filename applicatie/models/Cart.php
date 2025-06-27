@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../core/Model.php';
+
+require_once __DIR__ . '/../core/Model.php';
 
 class Cart extends Model
 {
@@ -39,12 +40,15 @@ class Cart extends Model
         $success = false;
 
         // Validatie
-        if (! $firstName)
+        if (! $firstName) {
             $errors[] = "Voornaam is verplicht.";
-        if (! $lastName)
+        }
+        if (! $lastName) {
             $errors[] = "Achternaam is verplicht.";
-        if (! $address)
+        }
+        if (! $address) {
             $errors[] = "Adres is verplicht.";
+        }
 
         if (empty($errors)) {
             try {
@@ -54,8 +58,9 @@ class Cart extends Model
                     ->query("SELECT TOP 1 username FROM [User] WHERE role = 'Personnel' ORDER BY NEWID()")
                     ->fetchColumn();
 
-                if (! $personnel)
+                if (! $personnel) {
                     throw new Exception("Geen personeel beschikbaar.");
+                }
 
                 $stmt = $this->db->prepare("INSERT INTO Pizza_Order (client_username, client_name, personnel_username, datetime, status, address)
                                             VALUES (:username, :name, :personnel, GETDATE(), :status, :address)");
@@ -88,9 +93,10 @@ class Cart extends Model
                 $this->db->commit();
                 $success = true;
             } catch (Exception $e) {
-                if ($this->db->inTransaction())
+                if ($this->db->inTransaction()) {
                     $this->db->rollBack();
-                $errors[] = "❌ Fout: ".$e->getMessage();
+                }
+                $errors[] = "❌ Fout: " . $e->getMessage();
             }
         }
 

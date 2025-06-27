@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../models/Cart.php';
+
+require_once __DIR__ . '/../models/Cart.php';
 
 class CartController
 {
@@ -16,7 +17,7 @@ class CartController
 
         $user = Auth::user();
 
-        include __DIR__.'/../views/cart/index.php';
+        include __DIR__ . '/../views/cart/index.php';
     }
 
     public function updateItem(): void

@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../models/User.php';
+
+require_once __DIR__ . '/../models/User.php';
 
 class AuthController
 {
@@ -13,7 +14,7 @@ class AuthController
 
     public function loginForm(): void
     {
-        include __DIR__.'/../views/auth/login.php';
+        include __DIR__ . '/../views/auth/login.php';
     }
 
     public function handleLogin(): void
@@ -49,7 +50,7 @@ class AuthController
         }
 
         $errors = $this->errors;
-        include __DIR__.'/../views/auth/login.php';
+        include __DIR__ . '/../views/auth/login.php';
     }
 
     public function logout(): void
@@ -62,7 +63,7 @@ class AuthController
     public function registerForm(): void
     {
         $errors = $this->errors;
-        include __DIR__.'/../views/auth/register.php';
+        include __DIR__ . '/../views/auth/register.php';
     }
 
     public function handleRegistration(): void
@@ -86,7 +87,7 @@ class AuthController
 
         if (! empty($this->errors)) {
             $errors = $this->errors;
-            include __DIR__.'/../views/auth/register.php';
+            include __DIR__ . '/../views/auth/register.php';
             return;
         }
 

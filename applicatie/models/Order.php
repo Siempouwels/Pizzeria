@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../core/Model.php';
+
+require_once __DIR__ . '/../core/Model.php';
 
 class Order extends Model
 {
@@ -26,8 +27,9 @@ class Order extends Model
 
     public function getOrderItems(array $orders): array
     {
-        if (empty($orders))
+        if (empty($orders)) {
             return [];
+        }
 
         $ids = implode(',', array_column($orders, 'order_id'));
         $stmt = $this->db->query("

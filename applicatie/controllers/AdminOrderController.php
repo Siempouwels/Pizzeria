@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../models/Order.php';
+
+require_once __DIR__ . '/../models/Order.php';
 
 class AdminOrderController
 {
@@ -9,6 +10,6 @@ class AdminOrderController
         $orders = $orderModel->getAllOrders();
         $orderItems = $orderModel->getOrderItems($orders);
 
-        include __DIR__.'/../views/admin/order/index.php';
+        include __DIR__ . '/../views/admin/order/index.php';
     }
 }

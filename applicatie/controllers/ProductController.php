@@ -1,6 +1,7 @@
 <?php
-require_once __DIR__.'/../models/Product.php';
-require_once __DIR__.'/../models/Ingredient.php';
+
+require_once __DIR__ . '/../models/Product.php';
+require_once __DIR__ . '/../models/Ingredient.php';
 
 class ProductController
 {
@@ -26,12 +27,12 @@ class ProductController
             $items = $this->productModel->getAllWithType();
             $ingredients = $this->ingredientModel->getPerItem(array_column($items, 'item_name'));
         } catch (PDOException $e) {
-            $errors[] = "❌ Fout bij ophalen data: ".$e->getMessage();
+            $errors[] = "❌ Fout bij ophalen data: " . $e->getMessage();
             $items = [];
             $ingredients = [];
         }
 
-        include __DIR__.'/../views/product/index.php';
+        include __DIR__ . '/../views/product/index.php';
     }
 
     public function addToCart(): void

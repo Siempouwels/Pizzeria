@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../models/Product.php';
+
+require_once __DIR__ . '/../models/Product.php';
 
 class OrderController
 {
@@ -29,11 +30,11 @@ class OrderController
                 }
             }
         } catch (PDOException $e) {
-            $errors[] = "Fout bij ophalen producten: ".$e->getMessage();
+            $errors[] = "Fout bij ophalen producten: " . $e->getMessage();
             $items = [];
         }
 
-        include __DIR__.'/../views/order/add_products.php';
+        include __DIR__ . '/../views/order/add_products.php';
     }
 
     public function addProductsToCart(): void
@@ -62,7 +63,6 @@ class OrderController
 
         $items = $productModel->getAll();
 
-        include __DIR__.'/../views/order/add_products.php';
+        include __DIR__ . '/../views/order/add_products.php';
     }
-
 }

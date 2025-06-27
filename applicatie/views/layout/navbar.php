@@ -1,5 +1,5 @@
 <?php
-require_once __DIR__.'/../../core/Auth.php';
+require_once __DIR__ . '/../../core/Auth.php';
 
 $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
 $isLoggedIn = Auth::isLoggedIn();

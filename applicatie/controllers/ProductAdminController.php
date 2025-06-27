@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../models/Product.php';
+
+require_once __DIR__ . '/../models/Product.php';
 
 class ProductAdminController
 {
@@ -13,13 +14,13 @@ class ProductAdminController
     public function index(): void
     {
         $products = $this->productModel->getAllWithType();
-        include __DIR__.'/../views/admin/product/index.php';
+        include __DIR__ . '/../views/admin/product/index.php';
     }
 
     public function createForm(): void
     {
         $types = $this->productModel->getAllTypes();
-        include __DIR__.'/../views/admin/product/form.php';
+        include __DIR__ . '/../views/admin/product/form.php';
     }
 
     public function store(): void
@@ -46,7 +47,7 @@ class ProductAdminController
             exit;
         }
 
-        include __DIR__.'/../views/admin/product/form.php';
+        include __DIR__ . '/../views/admin/product/form.php';
     }
 
     public function update(): void

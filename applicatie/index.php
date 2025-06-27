@@ -1,15 +1,15 @@
 <?php
 
-require_once __DIR__.'/core/Auth.php';
-require_once __DIR__.'/core/Router.php';
-require_once __DIR__.'/controllers/ProductController.php';
-require_once __DIR__.'/controllers/AuthController.php';
-require_once __DIR__.'/controllers/OrderController.php';
-require_once __DIR__.'/controllers/CartController.php';
-require_once __DIR__.'/controllers/OrderHistoryController.php';
-require_once __DIR__.'/controllers/AdminOrderController.php';
-require_once __DIR__.'/controllers/UserAdminController.php';
-require_once __DIR__.'/controllers/ProductAdminController.php';
+require_once __DIR__ . '/core/Auth.php';
+require_once __DIR__ . '/core/Router.php';
+require_once __DIR__ . '/controllers/ProductController.php';
+require_once __DIR__ . '/controllers/AuthController.php';
+require_once __DIR__ . '/controllers/OrderController.php';
+require_once __DIR__ . '/controllers/CartController.php';
+require_once __DIR__ . '/controllers/OrderHistoryController.php';
+require_once __DIR__ . '/controllers/AdminOrderController.php';
+require_once __DIR__ . '/controllers/UserAdminController.php';
+require_once __DIR__ . '/controllers/ProductAdminController.php';
 
 Auth::ensureSession();
 $router = new Router();

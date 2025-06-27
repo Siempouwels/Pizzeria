@@ -9,7 +9,7 @@
 </head>
 
 <body>
-    <?php include __DIR__.'/../../layout/navbar.php'; ?>
+    <?php include __DIR__ . '/../../layout/navbar.php'; ?>
 
     <div class="container">
         <h2>Alle klantbestellingen</h2>

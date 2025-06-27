@@ -1,12 +1,14 @@
 <?php
-require_once __DIR__.'/../core/Model.php';
+
+require_once __DIR__ . '/../core/Model.php';
 
 class Ingredient extends Model
 {
     public function getPerItem(array $itemNames): array
     {
-        if (count($itemNames) === 0)
+        if (count($itemNames) === 0) {
             return [];
+        }
 
         $placeholders = rtrim(str_repeat('?,', count($itemNames)), ',');
         $stmt = $this->db->prepare("

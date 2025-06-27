@@ -1,5 +1,6 @@
 <?php
-require_once __DIR__.'/../models/Order.php';
+
+require_once __DIR__ . '/../models/Order.php';
 
 class OrderHistoryController
 {
@@ -9,6 +10,6 @@ class OrderHistoryController
         $orders = $orderModel->getUserOrders();
         $orderItems = $orderModel->getOrderItems($orders);
 
-        include __DIR__.'/../views/order/history.php';
+        include __DIR__ . '/../views/order/history.php';
     }
 }

@@ -1,5 +1,6 @@
-<?php if (session_status() === PHP_SESSION_NONE)
-    session_start(); ?>
+<?php if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+} ?>
 <!DOCTYPE html>
 <html lang="nl">
 
@@ -11,7 +12,7 @@
 </head>
 
 <body>
-    <?php include __DIR__.'/../layout/navbar.php'; ?>
+    <?php include __DIR__ . '/../layout/navbar.php'; ?>
     <div class="container">
         <h2>Inloggen</h2>
 

@@ -2,6 +2,8 @@
 
 namespace Applicatie;
 
+require_once __DIR__ . '/vendor/autoload.php';
+
 use App\Controllers\AdminOrderController;
 use App\Controllers\AuthController;
 use App\Controllers\CartController;

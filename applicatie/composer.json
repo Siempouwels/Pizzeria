@@ -1,0 +1,17 @@
+{
+    "name": "siem-pouwels/applicatie",
+    "autoload": {
+        "psr-4": {
+            "App\\Controllers\\": "controllers/",
+            "App\\Models\\": "models/",
+            "Core\\": "core/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Siem Pouwels",
+            "email": "spg.pouwels@student.han.nl"
+        }
+    ],
+    "require": {}
+}

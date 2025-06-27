@@ -73,10 +73,38 @@ echo '-------------------------------------------------------'
 
 echo ''
 echo '-------------------------------------------------------'
+echo ' Automatisch formatteren met phpcbf (PSR-1)            '
+echo '-------------------------------------------------------'
+
+if command -v phpcbf >/dev/null 2>&1; then
+    phpcbf --standard=PSR1 /applicatie/ || echo "⚠️  Kan niet alles automatisch fixen"
+else
+    echo "❌ phpcbf is niet beschikbaar"
+fi
+
+echo ''
+echo '-------------------------------------------------------'
+echo ' Code check met PHP_CodeSniffer (PSR-1)               '
+echo '-------------------------------------------------------'
+
+if command -v phpcs >/dev/null 2>&1; then
+    phpcs --standard=PSR1 /applicatie/ || echo "❌ Fouten gevonden bij PSR-1 controle"
+else
+    echo "⚠️  phpcs is niet beschikbaar in de container"
+fi
+
+
+echo ''
+echo '-------------------------------------------------------'
 echo ' Hashing wachtwoorden indien nodig                     '
 echo '-------------------------------------------------------'
 
-php /setup/init/encrypt-passwords.php || echo "⚠️  Hash-script mislukt of niet nodig"
+if [ -f /setup/init/encrypt-passwords.php ]; then
+    php /setup/init/encrypt-passwords.php || echo "⚠️  Hash-script mislukt"
+else
+    echo "⏩ Geen encrypt-passwords.php gevonden op /setup/init/"
+fi
+
 
 php -S 0.0.0.0:80 -t /applicatie/
 

@@ -42,4 +42,13 @@ RUN docker-php-ext-enable pdo_sqlsrv
 RUN pecl install xdebug
 RUN docker-php-ext-enable xdebug
 
+# 6. Install PHP_CodeSniffer (phpcs + phpcbf) zonder Composer
+RUN mkdir -p /opt/phpcs \
+ && curl -L https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.7.2/phpcs.phar -o /opt/phpcs/phpcs \
+ && curl -L https://github.com/squizlabs/PHP_CodeSniffer/releases/download/3.7.2/phpcbf.phar -o /opt/phpcs/phpcbf \
+ && chmod +x /opt/phpcs/phpcs /opt/phpcs/phpcbf \
+ && ln -s /opt/phpcs/phpcs /usr/local/bin/phpcs \
+ && ln -s /opt/phpcs/phpcbf /usr/local/bin/phpcbf
+
+
 COPY "./webserver-setup/docker-php-ext-xdebug.ini" "/usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini"

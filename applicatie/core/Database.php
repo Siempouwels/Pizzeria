@@ -14,11 +14,6 @@ class Database
 
     private static ?PDO $verbinding = null;
 
-    /**
-     * Haal een PDO-verbinding op (singleton).
-     *
-     * @return PDO
-     */
     public static function connect(): PDO
     {
         if (self::$verbinding === null) {

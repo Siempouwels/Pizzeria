@@ -26,6 +26,7 @@
             <p>Je winkelmandje is leeg.</p>
         <?php else : ?>
             <form method="post" action="/cart/update-item">
+                <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
                 <table>
                     <thead>
                         <tr>
@@ -64,11 +65,13 @@
             </form>
 
             <form method="post" action="/cart/clear" style="margin-top: 20px;">
+                <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
                 <button type="submit" style="background-color: #d9534f;">Winkelmandje leegmaken</button>
             </form>
 
             <h3>Bestelling plaatsen</h3>
             <form method="post" action="/cart/checkout">
+                <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
                 <?php
                 $isLoggedIn = Auth::isLoggedIn();
                 $user = Auth::user();

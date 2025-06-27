@@ -22,6 +22,7 @@
         <?php endif; ?>
 
         <form method="post" action="/login">
+            <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
             <label for="username">Gebruikersnaam:</label>
             <input type="text" name="username" id="username" required><br><br>
 

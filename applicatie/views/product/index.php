@@ -43,6 +43,7 @@
                     <?php endif; ?>
 
                     <form method="post" action="/add-to-cart">
+                        <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
                         <input type="hidden" name="item_name" value="<?= htmlspecialchars($item['item_name']) ?>">
                         <label for="qty_<?= htmlspecialchars($item['item_name']) ?>">Aantal:</label>
                         <input type="number" name="quantity" id="qty_<?= htmlspecialchars($item['item_name']) ?>" value="0"

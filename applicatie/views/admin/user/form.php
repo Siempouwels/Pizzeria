@@ -15,6 +15,7 @@
         <h2>Gebruiker bewerken</h2>
 
         <form method="post" action="/admin/gebruikers/update">
+            <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
             <label for="username">Gebruikersnaam:</label><br>
             <input type="text" id="username" name="username" value="<?= htmlspecialchars($user['username'] ?? '') ?>"
                 readonly><br><br>

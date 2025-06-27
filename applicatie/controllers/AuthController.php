@@ -18,25 +18,37 @@ class AuthController
 
     public function handleLogin(): void
     {
-        $username = $_POST['username'] ?? '';
+        $username = trim($_POST['username'] ?? '');
         $password = $_POST['password'] ?? '';
+        $csrfToken = $_POST['csrf_token'] ?? '';
+        $this->errors = [];
 
-        $user = $this->userModel->findByCredentials($username, $password);
-
-        if ($user) {
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['role'] = $user['role'];
-            $_SESSION['first_name'] = $user['first_name'];
-            $_SESSION['last_name'] = $user['last_name'];
-            $_SESSION['address'] = $user['address'];
-
-            header('Location: /');
-            exit;
+        if ($username === '' || $password === '') {
+            $this->errors[] = "Gebruikersnaam en wachtwoord zijn verplicht.";
         }
 
-        $this->errors[] = "Ongeldige gebruikersnaam of wachtwoord.";
-        $errors = $this->errors;
+        if (empty($this->errors)) {
+            $user = $this->userModel->findByCredentials($username, $password);
 
+            if ($user) {
+                session_regenerate_id(true);
+
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['role'] = $user['role'];
+                $_SESSION['first_name'] = $user['first_name'];
+                $_SESSION['last_name'] = $user['last_name'];
+                $_SESSION['address'] = $user['address'];
+
+                unset($_SESSION['csrf_token']);
+
+                header('Location: /');
+                exit;
+            } else {
+                $this->errors[] = "Ongeldige gebruikersnaam of wachtwoord.";
+            }
+        }
+
+        $errors = $this->errors;
         include __DIR__.'/../views/auth/login.php';
     }
 

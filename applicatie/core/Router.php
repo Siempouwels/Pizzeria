@@ -24,25 +24,40 @@ class Router
         $method = $_SERVER['REQUEST_METHOD'];
         $routesForMethod = $this->routes[$method] ?? [];
 
-        // Exact match
         if (isset($routesForMethod[$uri])) {
+            if ($method === 'POST') {
+                $csrfToken = $_POST['csrf_token'] ?? '';
+                if (! \Auth::verifyCsrfToken($csrfToken)) {
+                    http_response_code(403);
+                    echo "Ongeldige CSRF-token.";
+                    exit;
+                }
+            }
+
             call_user_func($routesForMethod[$uri]);
             return;
         }
 
-        // Dynamic routes
         foreach ($routesForMethod as $route => $handler) {
             $regex = preg_replace('#\{[^/]+\}#', '([^/]+)', $route);
             $pattern = "#^{$regex}$#";
 
             if (preg_match($pattern, $uri, $matches)) {
-                array_shift($matches); // remove full match
+                if ($method === 'POST') {
+                    $csrfToken = $_POST['csrf_token'] ?? '';
+                    if (! \Auth::verifyCsrfToken($csrfToken)) {
+                        http_response_code(403);
+                        echo "Ongeldige CSRF-token.";
+                        exit;
+                    }
+                }
+
+                array_shift($matches);
                 call_user_func_array($handler, $matches);
                 return;
             }
         }
 
-        // No route matched
         $this->handleNotFound();
     }
 

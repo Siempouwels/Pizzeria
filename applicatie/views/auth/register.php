@@ -15,13 +15,15 @@
     <div class="container">
         <h2>Registreren</h2>
 
-        <?php if (!empty($errors)) : ?>
+        <?php if (! empty($errors)) : ?>
             <?php foreach ($errors as $error) : ?>
                 <p style="color:red;"><?= htmlspecialchars($error) ?></p>
             <?php endforeach; ?>
         <?php endif; ?>
 
         <form method="post" action="/registreren">
+
+            <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
             <label for="username">Gebruikersnaam:</label>
             <input type="text" name="username" id="username" required><br><br>
 

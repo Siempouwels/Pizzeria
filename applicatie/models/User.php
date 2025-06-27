@@ -5,13 +5,17 @@ class User extends Model
 {
     public function findByCredentials(string $username, string $password): ?array
     {
-        $stmt = $this->db->prepare("SELECT * FROM [User] WHERE username = :username AND password = :password");
+        $stmt = $this->db->prepare("SELECT * FROM [User] WHERE username = :username");
         $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $password);
         $stmt->execute();
 
         $user = $stmt->fetch();
-        return $user ?: null;
+
+        if ($user && password_verify($password, $user['password'])) {
+            return $user;
+        }
+
+        return null;
     }
 
     public function exists(string $username): bool
@@ -26,12 +30,14 @@ class User extends Model
     public function create(string $username, string $password, string $firstName, string $lastName, string $address, string $role): void
     {
         $stmt = $this->db->prepare("
-            INSERT INTO [User] (username, password, first_name, last_name, address, role)
-            VALUES (:username, :password, :first_name, :last_name, :address, :role)
-        ");
+        INSERT INTO [User] (username, password, first_name, last_name, address, role)
+        VALUES (:username, :password, :first_name, :last_name, :address, :role)
+    ");
+
+        $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt->bindParam(':username', $username);
-        $stmt->bindParam(':password', $password);
+        $stmt->bindParam(':password', $hashedPassword);
         $stmt->bindParam(':first_name', $firstName);
         $stmt->bindParam(':last_name', $lastName);
         $stmt->bindParam(':address', $address);

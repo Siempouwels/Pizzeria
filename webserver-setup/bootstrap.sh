@@ -71,5 +71,12 @@ echo
 echo ' webserver starting'
 echo '-------------------------------------------------------'
 
+echo ''
+echo '-------------------------------------------------------'
+echo ' Hashing wachtwoorden indien nodig                     '
+echo '-------------------------------------------------------'
+
+php /setup/init/encrypt-passwords.php || echo "⚠️  Hash-script mislukt of niet nodig"
+
 php -S 0.0.0.0:80 -t /applicatie/
 

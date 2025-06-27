@@ -15,7 +15,7 @@
         <h2><?= isset($product) ? 'Product bewerken' : 'Nieuw product toevoegen' ?></h2>
 
         <form method="post" action="<?= isset($product) ? '/admin/producten/update' : '/admin/producten/create' ?>">
-            <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
+            <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
             <label for="name">Naam:</label><br>
             <input type="text" id="name" name="name" value="<?= htmlspecialchars($product['name'] ?? '') ?>" required
                 <?= isset($product) ? 'readonly' : '' ?>><br><br>

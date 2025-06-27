@@ -1,11 +1,11 @@
 <?php
-require_once __DIR__ . '/../../core/Auth.php';
+
 
 $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
-$isLoggedIn = Auth::isLoggedIn();
-$isPersonnel = Auth::isPersonnel();
+$isLoggedIn = \Core\Auth::isLoggedIn();
+$isPersonnel = \Core\Auth::isPersonnel();
 
-$loggedInUser = Auth::user();
+$loggedInUser = \Core\Auth::user();
 $firstName = htmlspecialchars($loggedInUser['first_name'] ?? '');
 $lastName = htmlspecialchars($loggedInUser['last_name'] ?? '');
 $role = htmlspecialchars($loggedInUser['role'] ?? '');

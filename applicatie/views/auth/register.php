@@ -24,7 +24,7 @@
 
         <form method="post" action="/registreren">
 
-            <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
+            <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
             <label for="username">Gebruikersnaam:</label>
             <input type="text" name="username" id="username" required><br><br>
 

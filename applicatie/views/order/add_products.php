@@ -23,7 +23,7 @@
         <?php endforeach; ?>
 
         <form method="post" class="order">
-            <input type="hidden" name="csrf_token" value="<?= Auth::csrfToken() ?>">
+            <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
             <table>
                 <thead>
                     <tr>

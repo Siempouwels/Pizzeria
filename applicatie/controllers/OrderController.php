@@ -5,7 +5,6 @@ namespace App\Controllers;
 use App\Models\Product;
 use PDOException;
 
-
 class OrderController
 {
     public function index(): void

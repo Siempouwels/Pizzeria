@@ -69,6 +69,6 @@ class Router
     private function handleNotFound(): void
     {
         http_response_code(404);
-        include __DIR__ . '/../views/error/404.php';
+        include __DIR__ . '/../views/error/404.html';
     }
 }

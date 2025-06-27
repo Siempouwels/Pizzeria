@@ -1,7 +1,6 @@
 <?php
-use Core\Database;
 
-$db = Database::connect();
+$db = \Core\Database::connect();
 $stmt = $db->query("SELECT username, password FROM [User]");
 $users = $stmt->fetchAll();
 

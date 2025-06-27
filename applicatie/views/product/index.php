@@ -36,18 +36,33 @@
                     <p><strong>Prijs:</strong> €<?= number_format($item['price'], 2, ',', '.') ?></p>
 
                     <?php if (! empty($ingredients[$item['item_name']])) : ?>
-                        <p><strong>Ingrediënten:</strong>
-                            <?= htmlspecialchars(implode(', ', $ingredients[$item['item_name']])) ?></p>
+                        <p>
+                            <strong>Ingrediënten:</strong>
+                            <?= htmlspecialchars(implode(', ', $ingredients[$item['item_name']])) ?>
+                        </p>
                     <?php else : ?>
                         <p><em>Geen ingrediënten bekend</em></p>
                     <?php endif; ?>
 
                     <form method="post" action="/add-to-cart">
-                        <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
-                        <input type="hidden" name="item_name" value="<?= htmlspecialchars($item['item_name']) ?>">
+                        <input
+                            type="hidden"
+                            name="csrf_token"
+                            value="<?= \Core\Auth::csrfToken() ?>"
+                        >
+                        <input
+                            type="hidden"
+                            name="item_name"
+                            value="<?= htmlspecialchars($item['item_name']) ?>"
+                        >
                         <label for="qty_<?= htmlspecialchars($item['item_name']) ?>">Aantal:</label>
-                        <input type="number" name="quantity" id="qty_<?= htmlspecialchars($item['item_name']) ?>" value="0"
-                            min="0">
+                        <input
+                            type="number"
+                            name="quantity"
+                            id="qty_<?= htmlspecialchars($item['item_name']) ?>"
+                            value="0"
+                            min="0"
+                        >
                         <button type="submit">Toevoegen</button>
                     </form>
                 </div>

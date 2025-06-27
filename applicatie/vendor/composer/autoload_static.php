@@ -7,11 +7,11 @@ namespace Composer\Autoload;
 class ComposerStaticInit1c509655d817f3ef4d3b20aad4fd8cad
 {
     public static $prefixLengthsPsr4 = array (
-        'C' => 
+        'C' =>
         array (
             'Core\\' => 5,
         ),
-        'A' => 
+        'A' =>
         array (
             'App\\Models\\' => 11,
             'App\\Controllers\\' => 16,
@@ -19,15 +19,15 @@ class ComposerStaticInit1c509655d817f3ef4d3b20aad4fd8cad
     );
 
     public static $prefixDirsPsr4 = array (
-        'Core\\' => 
+        'Core\\' =>
         array (
             0 => __DIR__ . '/../..' . '/core',
         ),
-        'App\\Models\\' => 
+        'App\\Models\\' =>
         array (
             0 => __DIR__ . '/../..' . '/models',
         ),
-        'App\\Controllers\\' => 
+        'App\\Controllers\\' =>
         array (
             0 => __DIR__ . '/../..' . '/controllers',
         ),
@@ -43,7 +43,6 @@ class ComposerStaticInit1c509655d817f3ef4d3b20aad4fd8cad
             $loader->prefixLengthsPsr4 = ComposerStaticInit1c509655d817f3ef4d3b20aad4fd8cad::$prefixLengthsPsr4;
             $loader->prefixDirsPsr4 = ComposerStaticInit1c509655d817f3ef4d3b20aad4fd8cad::$prefixDirsPsr4;
             $loader->classMap = ComposerStaticInit1c509655d817f3ef4d3b20aad4fd8cad::$classMap;
-
         }, null, ClassLoader::class);
     }
 }

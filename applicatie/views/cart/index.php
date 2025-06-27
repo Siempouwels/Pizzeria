@@ -47,8 +47,14 @@
                             <tr>
                                 <td><?= htmlspecialchars($product) ?></td>
                                 <td>
-                                    <input type="number" name="quantity[<?= htmlspecialchars($product) ?>]" value="<?= $qty ?>"
-                                        min="0" required style="width: 60px;">
+                                    <input
+                                        type="number"
+                                        name="quantity[<?= htmlspecialchars($product) ?>]"
+                                        value="<?= $qty ?>"
+                                        min="0"
+                                        required
+                                        style="width: 60px;"
+                                    >
                                 </td>
                                 <td>€<?= number_format($prijs, 2, ',', '.') ?></td>
                                 <td>€<?= number_format($sub, 2, ',', '.') ?></td>
@@ -66,29 +72,48 @@
 
             <form method="post" action="/cart/clear" style="margin-top: 20px;">
                 <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
-                <button type="submit" style="background-color: #d9534f;">Winkelmandje leegmaken</button>
+                <button type="submit" style="background-color: #d9534f;">
+                    Winkelmandje leegmaken
+                </button>
             </form>
 
             <h3>Bestelling plaatsen</h3>
             <form method="post" action="/cart/checkout">
                 <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
                 <?php
-                $isLoggedIn = Auth::isLoggedIn();
-                $user = Auth::user();
+                $isLoggedIn = \Core\Auth::isLoggedIn();
+                $user = \Core\Auth::user();
                 $firstName = $user['first_name'] ?? ($_POST['first_name'] ?? '');
                 $lastName = $user['last_name'] ?? ($_POST['last_name'] ?? '');
                 $address = $_POST['address'] ?? ($user['address'] ?? '');
                 ?>
 
                 <label for="first_name">Voornaam:</label>
-                <input type="text" id="first_name" name="first_name" value="<?= htmlspecialchars($firstName) ?>"
-                    <?= $isLoggedIn ? 'readonly' : 'required' ?>><br><br>
+                <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    value="<?= htmlspecialchars($firstName) ?>"
+                    <?= $isLoggedIn ? 'readonly' : 'required' ?>
+                ><br><br>
 
                 <label for="last_name">Achternaam:</label>
-                <input type="text" id="last_name" name="last_name" value="<?= htmlspecialchars($lastName) ?>" <?= $isLoggedIn ? 'readonly' : 'required' ?>><br><br>
+                <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    value="<?= htmlspecialchars($lastName) ?>"
+                    <?= $isLoggedIn ? 'readonly' : 'required' ?>
+                ><br><br>
 
                 <label for="address">Adres:</label>
-                <input type="text" id="address" name="address" value="<?= htmlspecialchars($address) ?>" required><br><br>
+                <input
+                    type="text"
+                    id="address"
+                    name="address"
+                    value="<?= htmlspecialchars($address) ?>"
+                    required
+                ><br><br>
 
                 <button type="submit">Bestelling plaatsen</button>
             </form>

@@ -13,7 +13,11 @@ class Cart extends Model
 
         if (! empty($_SESSION['cart'])) {
             $placeholders = rtrim(str_repeat('?,', count($_SESSION['cart'])), ',');
-            $stmt = $this->db->prepare("SELECT name, price FROM Item WHERE name IN ($placeholders)");
+            $stmt = $this->db->prepare(
+                "SELECT name, price
+                 FROM Item
+                 WHERE name IN ($placeholders)"
+            );
             $stmt->execute(array_keys($_SESSION['cart']));
             foreach ($stmt->fetchAll() as $row) {
                 $productPrices[$row['name']] = $row['price'];
@@ -37,8 +41,12 @@ class Cart extends Model
         unset($_SESSION['cart']);
     }
 
-    public function checkout(?string $firstName, ?string $lastName, ?string $address, ?string $username): array
-    {
+    public function checkout(
+        ?string $firstName,
+        ?string $lastName,
+        ?string $address,
+        ?string $username
+    ): array {
         $errors = [];
         $success = false;
 
@@ -58,15 +66,36 @@ class Cart extends Model
                 $this->db->beginTransaction();
 
                 $personnel = $this->db
-                    ->query("SELECT TOP 1 username FROM [User] WHERE role = 'Personnel' ORDER BY NEWID()")
+                    ->query(
+                        "SELECT TOP 1 username
+                         FROM [User]
+                         WHERE role = 'Personnel'
+                         ORDER BY NEWID()"
+                    )
                     ->fetchColumn();
 
                 if (! $personnel) {
                     throw new Exception("Geen personeel beschikbaar.");
                 }
 
-                $stmt = $this->db->prepare("INSERT INTO Pizza_Order (client_username, client_name, personnel_username, datetime, status, address)
-                                            VALUES (:username, :name, :personnel, GETDATE(), :status, :address)");
+                $stmt = $this->db->prepare(
+                    "INSERT INTO Pizza_Order (
+                        client_username,
+                        client_name,
+                        personnel_username,
+                        datetime,
+                        status,
+                        address
+                    ) VALUES (
+                        :username,
+                        :name,
+                        :personnel,
+                        GETDATE(),
+                        :status,
+                        :address
+                    )"
+                );
+
                 $stmt->execute([
                     ':username' => $username,
                     ':name' => "$firstName $lastName",
@@ -76,14 +105,17 @@ class Cart extends Model
                 ]);
 
                 $orderId = $this->db->lastInsertId();
-                $insert = $this->db->prepare("INSERT INTO Pizza_Order_Item (order_id, item_name, quantity)
-                                              VALUES (:order_id, :item_name, :quantity)");
+
+                $insert = $this->db->prepare(
+                    "INSERT INTO Pizza_Order_Item (order_id, item_name, quantity)
+                     VALUES (:order_id, :item_name, :quantity)"
+                );
 
                 foreach ($_SESSION['cart'] as $product => $qty) {
                     $insert->execute([
                         ':order_id' => $orderId,
                         ':item_name' => $product,
-                        ':quantity' => $qty
+                        ':quantity' => $qty,
                     ]);
                 }
 

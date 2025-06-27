@@ -19,11 +19,17 @@
         <?php else : ?>
             <?php foreach ($orders as $order) : ?>
                 <div class="order">
-                    <h3>Bestelling #<?= $order['order_id'] ?? '?' ?>
-                        (<?= isset($order['datetime']) ? date('d-m-Y H:i', strtotime($order['datetime'])) : 'onbekend' ?>)
+                    <h3>
+                        Bestelling #<?= $order['order_id'] ?? '?' ?>
+                        (
+                            <?= isset($order['datetime'])
+                                ? date('d-m-Y H:i', strtotime($order['datetime']))
+                                : 'onbekend' ?>
+                        )
                     </h3>
 
-                    <p><strong>Klant:</strong>
+                    <p>
+                        <strong>Klant:</strong>
                         <?= htmlspecialchars($order['client_name'] ?? '') ?>
                         (<?= htmlspecialchars($order['client_username'] ?? '') ?>)
                     </p>

@@ -32,15 +32,20 @@
                         <?php $username = urlencode($user['username'] ?? ''); ?>
                         <tr>
                             <td><?= htmlspecialchars($user['username'] ?? '') ?></td>
-                            <td><?= htmlspecialchars($user['first_name'] ?? '') ?>
+                            <td>
+                                <?= htmlspecialchars($user['first_name'] ?? '') ?>
                                 <?= htmlspecialchars($user['last_name'] ?? '') ?>
                             </td>
                             <td><?= htmlspecialchars($user['address'] ?? '') ?></td>
                             <td><?= htmlspecialchars($user['role'] ?? '') ?></td>
                             <td>
                                 <a href="/admin/gebruikers/bewerken/<?= $username ?>">✏️</a>
-                                <a href="/admin/gebruikers/verwijderen/<?= $username ?>"
-                                    onclick="return confirm('Weet je zeker dat je deze gebruiker wilt verwijderen?');">🗑️</a>
+                                <a
+                                    href="/admin/gebruikers/verwijderen/<?= $username ?>"
+                                    onclick="return confirm(
+                                        'Weet je zeker dat je deze gebruiker wilt verwijderen?'
+                                    );"
+                                >🗑️</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

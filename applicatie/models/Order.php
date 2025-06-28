@@ -121,12 +121,13 @@ class Order extends Model
 
     public function countActiveOrders(): int
     {
-        $stmt = $this->db->query("
-        SELECT COUNT(*) AS cnt
-          FROM Pizza_Order
-         WHERE status IS NULL
-            OR status != 3
-    ");
+        $stmt = $this->db->query(
+            "SELECT COUNT(*) AS cnt
+                FROM Pizza_Order
+                WHERE status IS NULL
+                    OR status != 3
+            "
+        );
         $row = $stmt->fetch();
         return (int) ($row['cnt'] ?? 0);
     }

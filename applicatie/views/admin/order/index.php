@@ -21,7 +21,7 @@
             <?php foreach ($orders as $order) : ?>
                 <div class="order">
                     <h3>
-                        Bestelling #<?= $order['order_id'] ?? '?' ?>
+                        Bestelling #<?= htmlspecialchars($order['order_id'] ?? '?') ?>
                         (
                             <?= isset($order['datetime'])
                                 ? date('d-m-Y H:i', strtotime($order['datetime']))
@@ -36,8 +36,22 @@
                     </p>
 
                     <p><strong>Adres:</strong> <?= htmlspecialchars($order['address'] ?? '') ?></p>
-                    <p><strong>Status:</strong> <?= htmlspecialchars($order['status_label'] ?? '') ?></p>
-                    <p><strong>Behandeld door:</strong> <?= htmlspecialchars($order['personnel_username'] ?? '') ?></p>
+
+                    <p><strong>Status:</strong>
+                        <form method="post" action="/admin/bestellingen/update-status" class="inline-form">
+                            <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
+
+                            <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
+                            <select name="status" onchange="this.form.submit()">
+                                <option value="1" <?= $order['status'] == 1 ? 'selected' : '' ?>>In afwachting</option>
+                                <option value="2" <?= $order['status'] == 2 ? 'selected' : '' ?>>In voorbereiding</option>
+                                <option value="3" <?= $order['status'] == 3 ? 'selected' : '' ?>>Afgeleverd</option>
+                            </select>
+                            <noscript><button type="submit">Wijzig</button></noscript>
+                        </form>
+                    </p>
+
+                    <p><strong>Behandeld door:</strong> <?= htmlspecialchars($order['personnel_username'] ?? '-') ?></p>
 
                     <?php if (! empty($orderItems[$order['order_id']])) : ?>
                         <ul>

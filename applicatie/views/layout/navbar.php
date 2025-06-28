@@ -1,4 +1,7 @@
 <?php
+
+use App\Models\Order;
+
 $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
 $isLoggedIn = \Core\Auth::isLoggedIn();
 $isPersonnel = \Core\Auth::isPersonnel();
@@ -7,6 +10,12 @@ $loggedInUser = \Core\Auth::user();
 $firstName = htmlspecialchars($loggedInUser['first_name'] ?? '');
 $lastName = htmlspecialchars($loggedInUser['last_name'] ?? '');
 $role = htmlspecialchars($loggedInUser['role'] ?? '');
+
+if ($isPersonnel) {
+    $orderModel = new Order();
+    $activeOrderCount = $orderModel->countActiveOrders();
+}
+
 ?>
 
 <nav class="main-navbar">
@@ -17,7 +26,11 @@ $role = htmlspecialchars($loggedInUser['role'] ?? '');
         <li><a href="/">Home</a></li>
 
         <?php if ($isPersonnel) : ?>
-            <li><a href="/admin/bestellingen">Bestellingen</a></li>
+            <li><a href="/admin/bestellingen">Bestellingen
+                    <?php if ($activeOrderCount > 0) : ?>
+                        (<?= $activeOrderCount ?>)
+                    <?php endif; ?>
+                </a></li>
             <li><a href="/admin/producten">Producten</a></li>
             <li><a href="/admin/gebruikers">Gebruikers</a></li>
         <?php endif; ?>

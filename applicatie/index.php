@@ -43,6 +43,11 @@ $router->get('/admin/bestellingen', function () {
     (new AdminOrderController())->index();
 });
 
+$router->post('/admin/bestellingen/update-status', function () {
+    Auth::requirePersonnel();
+    (new AdminOrderController())->updateStatus();
+});
+
 $router->get('/admin/gebruikers', function () {
     Auth::requirePersonnel();
     (new UserAdminController())->index();

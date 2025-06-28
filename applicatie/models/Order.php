@@ -82,6 +82,19 @@ class Order extends Model
         return $itemsPerOrder;
     }
 
+    public function getActiveOrders(): array
+    {
+        $stmt = $this->db->query(
+            "SELECT *
+         FROM Pizza_Order
+         WHERE status IS NULL
+            OR status != 3
+         ORDER BY datetime DESC"
+        );
+
+        return $this->mapStatusLabels($stmt->fetchAll());
+    }
+
     public function getAllOrders(): array
     {
         $stmt = $this->db->query(
@@ -91,5 +104,30 @@ class Order extends Model
         );
 
         return $this->mapStatusLabels($stmt->fetchAll());
+    }
+
+    public function updateStatus(int $orderId, int $status): void
+    {
+        $stmt = $this->db->prepare("
+            UPDATE Pizza_Order
+               SET status = :status
+             WHERE order_id = :order_id
+        ");
+        $stmt->execute([
+            ':status'   => $status,
+            ':order_id' => $orderId,
+        ]);
+    }
+
+    public function countActiveOrders(): int
+    {
+        $stmt = $this->db->query("
+        SELECT COUNT(*) AS cnt
+          FROM Pizza_Order
+         WHERE status IS NULL
+            OR status != 3
+    ");
+        $row = $stmt->fetch();
+        return (int) ($row['cnt'] ?? 0);
     }
 }

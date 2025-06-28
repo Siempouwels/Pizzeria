@@ -12,8 +12,5 @@
             "name": "Siem Pouwels",
             "email": "spg.pouwels@student.han.nl"
         }
-    ],
-    "require": {
-        "vlucas/phpdotenv": "^5.6"
-    }
+    ]
 }

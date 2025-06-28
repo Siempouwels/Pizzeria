@@ -12,10 +12,10 @@ class Database
     public static function connect(): PDO
     {
         if (self::$verbinding === null) {
-            $host = $_ENV['DB_HOST'] ?? 'localhost';
-            $name = $_ENV['DB_NAME'] ?? 'default';
-            $user = $_ENV['DB_USER'] ?? 'root';
-            $pass = $_ENV['DB_PASS'] ?? '';
+            $host = getenv('DB_HOST') ?: 'localhost';
+            $name = getenv('DB_NAME') ?: 'default';
+            $user = getenv('DB_USER') ?: 'root';
+            $pass = getenv('SA_PASSWORD') ?: '';
 
             $dsn = "sqlsrv:Server={$host};Database={$name};ConnectionPooling=0;TrustServerCertificate=1";
 

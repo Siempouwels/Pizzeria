@@ -7,8 +7,24 @@
     padding: 10px 20px;
     color: white;
     flex-wrap: wrap;
+    position: relative;
 }
 
+/* Verborgen checkbox voor toggling */
+#menu-toggle {
+    display: none;
+}
+
+/* Hamburger icoon */
+.menu-icon {
+    display: none;
+    font-size: 26px;
+    cursor: pointer;
+    color: white;
+    user-select: none;
+}
+
+/* Navigatie menu */
 .main-navbar ul {
     list-style: none;
     display: flex;
@@ -46,10 +62,24 @@
         align-items: flex-start;
     }
 
-    .main-navbar ul {
+    /* Toon hamburger */
+    .menu-icon {
+        display: block;
+        margin-bottom: 10px;
+    }
+
+    /* Menu standaard verbergen */
+    .main-navbar .menu {
+        display: none;
         flex-direction: column;
         width: 100%;
         padding-left: 0;
+        animation: navbarFadeSlide 0.3s ease-in-out;
+    }
+
+    /* Toon menu als checkbox is aangevinkt */
+    #menu-toggle:checked ~ .menu-icon + .menu {
+        display: flex;
     }
 
     .main-navbar li {
@@ -58,5 +88,17 @@
 
     .main-navbar li:last-child {
         margin-right: 0;
+    }
+}
+
+/* Animatie bij tonen */
+@keyframes navbarFadeSlide {
+    0% {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
     }
 }

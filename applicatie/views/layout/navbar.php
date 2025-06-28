@@ -1,6 +1,4 @@
 <?php
-
-
 $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
 $isLoggedIn = \Core\Auth::isLoggedIn();
 $isPersonnel = \Core\Auth::isPersonnel();
@@ -12,7 +10,11 @@ $role = htmlspecialchars($loggedInUser['role'] ?? '');
 ?>
 
 <nav class="main-navbar">
-    <ul class="nav-left">
+    <!-- Checkbox voor togglen -->
+    <input type="checkbox" id="menu-toggle" />
+    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+
+    <ul class="nav-left menu">
         <li><a href="/">Home</a></li>
 
         <?php if ($isPersonnel) : ?>
@@ -26,7 +28,7 @@ $role = htmlspecialchars($loggedInUser['role'] ?? '');
         <li><a href="/winkelmandje">Winkelmand (<?= $cartCount ?>)</a></li>
     </ul>
 
-    <ul class="nav-right">
+    <ul class="nav-right menu">
         <?php if ($isLoggedIn) : ?>
             <li>
                 <span><?= "$firstName $lastName ($role)" ?></span>

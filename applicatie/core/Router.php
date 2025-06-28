@@ -31,12 +31,7 @@ class Router
 
         if (isset($routesForMethod[$uri])) {
             if ($method === 'POST') {
-                $csrfToken = $_POST['csrf_token'] ?? '';
-                if (! Auth::verifyCsrfToken($csrfToken)) {
-                    http_response_code(403);
-                    echo "Ongeldige CSRF-token.";
-                    exit;
-                }
+                $this->checkCsrfToken();
             }
 
             call_user_func($routesForMethod[$uri]);
@@ -49,12 +44,7 @@ class Router
 
             if (preg_match($pattern, $uri, $matches)) {
                 if ($method === 'POST') {
-                    $csrfToken = $_POST['csrf_token'] ?? '';
-                    if (! Auth::verifyCsrfToken($csrfToken)) {
-                        http_response_code(403);
-                        echo "Ongeldige CSRF-token.";
-                        exit;
-                    }
+                    $this->checkCsrfToken();
                 }
 
                 array_shift($matches);
@@ -70,5 +60,16 @@ class Router
     {
         http_response_code(404);
         include __DIR__ . '/../views/error/404.html';
+    }
+
+    private function checkCsrfToken(): void
+    {
+        $csrfToken = $_POST['csrf_token'] ?? '';
+
+        if (! Auth::verifyCsrfToken($csrfToken)) {
+            http_response_code(403);
+            echo "Ongeldige CSRF-token.";
+            exit;
+        }
     }
 }

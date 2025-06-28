@@ -31,8 +31,8 @@
 
                     <p>
                         <strong>Status:</strong>
-                        <?= isset($order['status'])
-                            ? htmlspecialchars($order['status'])
+                        <?= isset($order['status_label'])
+                            ? htmlspecialchars($order['status_label'])
                             : '' ?>
                     </p>
 

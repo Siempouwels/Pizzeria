@@ -36,7 +36,7 @@
                     </p>
 
                     <p><strong>Adres:</strong> <?= htmlspecialchars($order['address'] ?? '') ?></p>
-                    <p><strong>Status:</strong> <?= htmlspecialchars($order['status'] ?? '') ?></p>
+                    <p><strong>Status:</strong> <?= htmlspecialchars($order['status_label'] ?? '') ?></p>
                     <p><strong>Behandeld door:</strong> <?= htmlspecialchars($order['personnel_username'] ?? '') ?></p>
 
                     <?php if (! empty($orderItems[$order['order_id']])) : ?>

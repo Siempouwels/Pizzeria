@@ -6,6 +6,25 @@ use Core\Model;
 
 class Order extends Model
 {
+    private static function getStatusLabel(?int $status): string
+    {
+        return match ($status) {
+            null => 'Onbekend',
+            1 => 'In afwachting',
+            2 => 'In voorbereiding',
+            3 => 'Afgeleverd',
+            default => 'Onbekend',
+        };
+    }
+
+    private function mapStatusLabels(array $orders): array
+    {
+        foreach ($orders as &$order) {
+            $order['status_label'] = self::getStatusLabel($order['status'] ?? null);
+        }
+        return $orders;
+    }
+
     public function getUserOrders(): array
     {
         if (isset($_SESSION['username'])) {
@@ -17,12 +36,13 @@ class Order extends Model
             );
             $stmt->execute([':username' => $_SESSION['username']]);
 
-            return $stmt->fetchAll();
+            return $this->mapStatusLabels($stmt->fetchAll());
         }
 
-        if (! empty($_SESSION['order_ids'])) {
+        if (!empty($_SESSION['order_ids'])) {
             $ids = array_filter($_SESSION['order_ids'], 'is_numeric');
-            if (! empty($ids)) {
+
+            if (!empty($ids)) {
                 $in = implode(',', array_fill(0, count($ids), '?'));
                 $stmt = $this->db->prepare(
                     "SELECT *
@@ -32,7 +52,7 @@ class Order extends Model
                 );
                 $stmt->execute($ids);
 
-                return $stmt->fetchAll();
+                return $this->mapStatusLabels($stmt->fetchAll());
             }
         }
 
@@ -70,6 +90,6 @@ class Order extends Model
              ORDER BY datetime DESC"
         );
 
-        return $stmt->fetchAll();
+        return $this->mapStatusLabels($stmt->fetchAll());
     }
 }

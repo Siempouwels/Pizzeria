@@ -10,7 +10,6 @@ $role = htmlspecialchars($loggedInUser['role'] ?? '');
 ?>
 
 <nav class="main-navbar">
-    <!-- Checkbox voor togglen -->
     <input type="checkbox" id="menu-toggle" />
     <label for="menu-toggle" class="menu-icon">&#9776;</label>
 

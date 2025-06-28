@@ -1,38 +1,47 @@
+/* Algemene order layout */
 .order {
     margin-bottom: 30px;
     padding: 20px;
     background-color: #fff;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
+    font-size: 15px;
 }
 
 .order h3 {
     margin-top: 0;
-    font-size: 20px;
+    font-size: 22px;
+    color: #2c3e50;
 }
 
 .order p {
-    margin: 4px 0;
+    margin: 6px 0;
+    line-height: 1.5;
+    color: #444;
 }
 
+/* Tabel stijl op desktop */
 .order table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 15px;
+    margin-top: 20px;
     font-size: 14px;
+    background-color: #fff;
 }
 
 .order table th,
 .order table td {
-    padding: 10px;
+    padding: 12px 10px;
     border: 1px solid #e0e0e0;
     text-align: left;
+    vertical-align: top;
 }
 
 .order table th {
-    background-color: #f8f8f8;
-    font-weight: bold;
+    background-color: #f0f0f0;
+    font-weight: 600;
+    color: #333;
 }
 
 .order table td:last-child,
@@ -43,4 +52,70 @@
 .order table tr:last-child td {
     font-weight: bold;
     background-color: #fafafa;
+}
+
+/* Subtotaal rij duidelijk markeren */
+.order-subtotal {
+    font-weight: bold;
+    background-color: #fafafa;
+    text-align: right;
+    padding: 12px 10px;
+    border-top: 2px solid #e0e0e0;
+}
+
+/* RESPONSIVE voor mobiel */
+@media (max-width: 600px) {
+    .order table {
+        border: 0;
+    }
+
+    .order thead {
+        display: none;
+    }
+
+    .order tbody, .order tr, .order td {
+        display: block;
+        width: 100%;
+    }
+
+    .order tr {
+        margin-bottom: 15px;
+        border-bottom: 2px solid #eee;
+        padding-bottom: 10px;
+    }
+
+    .order td {
+        text-align: left !important;
+        padding-left: 50%;
+        position: relative;
+        border: none;
+        border-bottom: 1px solid #eee;
+    }
+
+    .order td::before {
+        content: attr(data-label);
+        position: absolute;
+        left: 10px;
+        top: 12px;
+        font-weight: bold;
+        white-space: nowrap;
+        color: #666;
+    }
+
+    .order table td:last-child {
+        border-bottom: 2px solid #ddd;
+    }
+
+    .order-subtotal {
+        text-align: left;
+        padding-left: 50%;
+    }
+
+    .order-subtotal::before {
+        content: 'Subtotaal:';
+        position: absolute;
+        left: 10px;
+        font-weight: bold;
+        color: #666;
+    }
 }

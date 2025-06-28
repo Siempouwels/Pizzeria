@@ -10,6 +10,7 @@
     <title>Mijn bestellingen</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <link rel="stylesheet" href="/public/css/navbar.css">
+    <link rel="stylesheet" href="/public/css/orders.css">
 </head>
 
 <body>

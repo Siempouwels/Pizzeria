@@ -1,6 +1,5 @@
 <?php
 
-use App\Models\Order;
 
 $cartCount = isset($_SESSION['cart']) ? array_sum($_SESSION['cart']) : 0;
 $isLoggedIn = \Core\Auth::isLoggedIn();
@@ -12,7 +11,7 @@ $lastName = htmlspecialchars($loggedInUser['last_name'] ?? '');
 $role = htmlspecialchars($loggedInUser['role'] ?? '');
 
 if ($isPersonnel) {
-    $orderModel = new Order();
+    $orderModel = new \App\Models\Order();
     $activeOrderCount = $orderModel->countActiveOrders();
 }
 

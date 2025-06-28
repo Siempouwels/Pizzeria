@@ -1,4 +1,14 @@
-/* Algemene basis */
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+}
+
 body {
     font-family: 'Segoe UI', sans-serif;
     background-color: #f4f4f4;
@@ -90,6 +100,7 @@ button {
     border-radius: 4px;
     cursor: pointer;
     font-weight: bold;
+    transition: background-color 0.3s;
 }
 
 button:hover {
@@ -104,20 +115,41 @@ p.error,
     margin-top: 10px;
 }
 
-/* Responsiveness */
+/* RESPONSIVE LAYOUT */
+
+/* Smartphones */
 @media (max-width: 600px) {
     .container {
         width: 95%;
         padding: 15px;
     }
 
-    .navbar {
-        flex-direction: column;
-        align-items: flex-start;
+    .logout {
+        text-align: center;
     }
 
-    .navbar .nav-left,
-    .navbar .nav-right {
-        margin: 5px 0;
+    button {
+        width: 100%;
+    }
+}
+
+/* Tablets en kleine desktops */
+@media (min-width: 601px) and (max-width: 1024px) {
+    .container {
+        width: 95%;
+        padding: 25px;
+    }
+
+    form input,
+    form select {
+        font-size: 16px;
+    }
+}
+
+/* Grote schermen */
+@media (min-width: 1025px) {
+    form input,
+    form select {
+        font-size: 15px;
     }
 }

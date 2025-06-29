@@ -105,6 +105,18 @@ else
     echo "⏩ Geen encrypt-passwords.php gevonden op /setup/init/"
 fi
 
+echo ''
+echo '-------------------------------------------------------'
+echo ' Composer install indien vendor ontbreekt              '
+echo '-------------------------------------------------------'
+
+if [ ! -f /applicatie/vendor/autoload.php ]; then
+    echo "📦 Voer composer install uit..."
+    cd /applicatie
+    composer install --no-interaction --prefer-dist --optimize-autoloader
+else
+    echo "✅ Vendor map is aanwezig, composer install wordt overgeslagen"
+fi
 
 php -S 0.0.0.0:80 -t /applicatie/
 

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Core\Model;
+use PDO;
 
 class Product extends Model
 {
@@ -40,13 +41,6 @@ class Product extends Model
         ]);
     }
 
-    public function findByName(string $name): ?array
-    {
-        $stmt = $this->db->prepare("SELECT * FROM Item WHERE name = :name");
-        $stmt->execute([':name' => $name]);
-        return $stmt->fetch() ?: null;
-    }
-
     public function update(string $name, float $price, string $type): void
     {
         $stmt = $this->db->prepare("UPDATE Item SET price = :price, type_id = :type WHERE name = :name");
@@ -61,5 +55,44 @@ class Product extends Model
     {
         $stmt = $this->db->prepare("DELETE FROM Item WHERE name = :name");
         $stmt->execute([':name' => $name]);
+
+        $stmt = $this->db->prepare("DELETE FROM Item_Ingredient WHERE item_name = :name");
+        $stmt->execute([':name' => $name]);
+    }
+
+    public function findByName(string $name): ?array
+    {
+        $stmt = $this->db->prepare("SELECT * FROM Item WHERE name = :name");
+        $stmt->execute([':name' => $name]);
+        return $stmt->fetch() ?: null;
+    }
+
+    public function setIngredients(string $productName, array $ingredientNames): void
+    {
+        $stmt = $this->db->prepare("DELETE FROM Item_Ingredient WHERE item_name = :name");
+        $stmt->execute([':name' => $productName]);
+
+        $stmt = $this->db->prepare("
+            INSERT INTO Item_Ingredient (item_name, ingredient_name)
+            VALUES (:item_name, :ingredient_name)
+        ");
+
+        foreach ($ingredientNames as $ingredientName) {
+            $stmt->execute([
+                ':item_name' => $productName,
+                ':ingredient_name' => $ingredientName,
+            ]);
+        }
+    }
+
+    public function getIngredientNames(string $productName): array
+    {
+        $stmt = $this->db->prepare("
+            SELECT ingredient_name
+            FROM Item_Ingredient
+            WHERE item_name = :name
+        ");
+        $stmt->execute([':name' => $productName]);
+        return array_column($stmt->fetchAll(), 'ingredient_name');
     }
 }

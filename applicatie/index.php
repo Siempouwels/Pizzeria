@@ -7,6 +7,7 @@ require_once __DIR__ . '/vendor/autoload.php';
 use App\Controllers\AdminOrderController;
 use App\Controllers\AuthController;
 use App\Controllers\CartController;
+use App\Controllers\IngredientAdminController;
 use App\Controllers\OrderController;
 use App\Controllers\OrderHistoryController;
 use App\Controllers\ProductAdminController;
@@ -19,23 +20,23 @@ Auth::ensureSession();
 $router = new Router();
 
 // Publieke routes
-$router->get('/', fn () => (new ProductController())->index());
-$router->post('/add-to-cart', fn () => (new ProductController())->addToCart());
+$router->get('/', fn() => (new ProductController())->index());
+$router->post('/add-to-cart', fn() => (new ProductController())->addToCart());
 
-$router->get('/login', fn () => (new AuthController())->loginForm());
-$router->post('/login', fn () => (new AuthController())->handleLogin());
-$router->get('/logout', fn () => (new AuthController())->logout());
+$router->get('/login', fn() => (new AuthController())->loginForm());
+$router->post('/login', fn() => (new AuthController())->handleLogin());
+$router->get('/logout', fn() => (new AuthController())->logout());
 
-$router->get('/registreren', fn () => (new AuthController())->registerForm());
-$router->post('/registreren', fn () => (new AuthController())->handleRegistration());
+$router->get('/registreren', fn() => (new AuthController())->registerForm());
+$router->post('/registreren', fn() => (new AuthController())->handleRegistration());
 
-$router->get('/nieuwe-bestelling', fn () => (new OrderController())->index());
-$router->post('/nieuwe-bestelling', fn () => (new OrderController())->addProductsToCart());
-$router->get('/winkelmandje', fn () => (new CartController())->index());
-$router->post('/cart/update-item', fn () => (new CartController())->updateItem());
-$router->post('/cart/clear', fn () => (new CartController())->clearCart());
-$router->post('/cart/checkout', fn () => (new CartController())->checkout());
-$router->get('/mijn-bestellingen', fn () => (new OrderHistoryController())->index());
+$router->get('/nieuwe-bestelling', fn() => (new OrderController())->index());
+$router->post('/nieuwe-bestelling', fn() => (new OrderController())->addProductsToCart());
+$router->get('/winkelmandje', fn() => (new CartController())->index());
+$router->post('/cart/update-item', fn() => (new CartController())->updateItem());
+$router->post('/cart/clear', fn() => (new CartController())->clearCart());
+$router->post('/cart/checkout', fn() => (new CartController())->checkout());
+$router->get('/mijn-bestellingen', fn() => (new OrderHistoryController())->index());
 
 // Admin-only routes
 $router->get('/admin/bestellingen', function () {
@@ -96,6 +97,37 @@ $router->post('/admin/producten/update', function () {
 $router->get('/admin/producten/verwijderen/{name}', function ($name) {
     Auth::requirePersonnel();
     (new ProductAdminController())->delete(urldecode($name));
+});
+
+// Ingrediënten beheren (admin-only)
+$router->get('/admin/ingredienten', function () {
+    Auth::requirePersonnel();
+    (new IngredientAdminController())->index();
+});
+
+$router->get('/admin/ingredienten/nieuw', function () {
+    Auth::requirePersonnel();
+    (new IngredientAdminController())->createForm();
+});
+
+$router->post('/admin/ingredienten/opslaan', function () {
+    Auth::requirePersonnel();
+    (new IngredientAdminController())->store();
+});
+
+$router->get('/admin/ingredienten/bewerken/{name}', function ($name) {
+    Auth::requirePersonnel();
+    (new IngredientAdminController())->editForm(urldecode($name));
+});
+
+$router->post('/admin/ingredienten/update', function () {
+    Auth::requirePersonnel();
+    (new IngredientAdminController())->update();
+});
+
+$router->get('/admin/ingredienten/verwijderen/{name}', function ($name) {
+    Auth::requirePersonnel();
+    (new IngredientAdminController())->delete(urldecode($name));
 });
 
 $router->dispatch();

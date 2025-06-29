@@ -36,9 +36,7 @@
                             <td><?= htmlspecialchars($product['type'] ?? '') ?></td>
                             <td>
                                 <a href="/admin/producten/bewerken/<?= urlencode($product['item_name']) ?>">✏️</a>
-                                <a href="/admin/producten/verwijderen/<?= urlencode($product['item_name']) ?>"
-                                    onclick="return confirm('Weet je zeker dat je dit product wilt verwijderen?');">🗑️
-                                </a>
+                                <a href="/admin/producten/verwijderen/<?= urlencode($product['item_name']) ?>">🗑️</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>

@@ -31,6 +31,7 @@ if ($isPersonnel) {
                     <?php endif; ?>
                 </a></li>
             <li><a href="/admin/producten">Producten</a></li>
+            <li><a href="/admin/ingredienten">Ingrediënten</a></li>
             <li><a href="/admin/gebruikers">Gebruikers</a></li>
         <?php endif; ?>
 

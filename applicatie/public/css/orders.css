@@ -1,47 +1,47 @@
 /* Algemene order layout */
 .order {
-    margin-bottom: 30px;
-    padding: 20px;
-    background-color: #fff;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.06);
-    font-size: 15px;
+    margin-bottom: var(--padding-lg);
+    padding: var(--padding-md);
+    background-color: var(--color-bg-white);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius);
+    box-shadow: var(--box-shadow-soft);
+    font-size: var(--font-size-base);
 }
 
 .order h3 {
     margin-top: 0;
-    font-size: 22px;
-    color: #2c3e50;
+    font-size: var(--font-size-heading);
+    color: var(--color-bg-dark);
 }
 
 .order p {
     margin: 6px 0;
     line-height: 1.5;
-    color: #444;
+    color: var(--color-heading);
 }
 
 /* Tabel stijl op desktop */
 .order table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 14px;
-    background-color: #fff;
+    margin-top: var(--padding-md);
+    font-size: var(--font-size-small);
+    background-color: var(--color-bg-white);
 }
 
 .order table th,
 .order table td {
     padding: 12px 10px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid var(--color-border-light);
     text-align: left;
     vertical-align: top;
 }
 
 .order table th {
-    background-color: #f0f0f0;
+    background-color: var(--color-hover-row);
     font-weight: 600;
-    color: #333;
+    color: var(--color-text);
 }
 
 .order table td:last-child,
@@ -51,16 +51,16 @@
 
 .order table tr:last-child td {
     font-weight: bold;
-    background-color: #fafafa;
+    background-color: var(--color-bg-subtle);
 }
 
 /* Subtotaal rij duidelijk markeren */
 .order-subtotal {
     font-weight: bold;
-    background-color: #fafafa;
+    background-color: var(--color-bg-subtle);
     text-align: right;
     padding: 12px 10px;
-    border-top: 2px solid #e0e0e0;
+    border-top: 2px solid var(--color-border-light);
 }
 
 /* RESPONSIVE voor mobiel */
@@ -73,7 +73,9 @@
         display: none;
     }
 
-    .order tbody, .order tr, .order td {
+    .order tbody,
+    .order tr,
+    .order td {
         display: block;
         width: 100%;
     }
@@ -103,7 +105,7 @@
     }
 
     .order table td:last-child {
-        border-bottom: 2px solid #ddd;
+        border-bottom: 2px solid var(--color-border);
     }
 
     .order-subtotal {

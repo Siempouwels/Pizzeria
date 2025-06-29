@@ -3,9 +3,9 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    background-color: #2c3e50;
-    padding: 10px 20px;
-    color: white;
+    background-color: var(--color-bg-dark);
+    padding: var(--padding-sm) var(--padding-md);
+    color: var(--color-bg-white);
     flex-wrap: wrap;
     position: relative;
 }
@@ -20,7 +20,7 @@
     display: none;
     font-size: 26px;
     cursor: pointer;
-    color: white;
+    color: var(--color-bg-white);
     user-select: none;
 }
 
@@ -33,7 +33,7 @@
 }
 
 .main-navbar li {
-    margin-right: 15px;
+    margin-right: var(--gap);
 }
 
 .main-navbar li:last-child {
@@ -41,7 +41,7 @@
 }
 
 .main-navbar a {
-    color: white;
+    color: var(--color-bg-white);
     text-decoration: none;
     font-weight: bold;
 }
@@ -52,7 +52,7 @@
 
 .main-navbar span {
     font-weight: normal;
-    color: #ccc;
+    color: var(--color-text-light);
 }
 
 /* Responsive navbar */
@@ -65,7 +65,7 @@
     /* Toon hamburger */
     .menu-icon {
         display: block;
-        margin-bottom: 10px;
+        margin-bottom: var(--padding-sm);
     }
 
     /* Menu standaard verbergen */
@@ -78,7 +78,7 @@
     }
 
     /* Toon menu als checkbox is aangevinkt */
-    #menu-toggle:checked ~ .menu-icon + .menu {
+    #menu-toggle:checked~.menu-icon+.menu {
         display: flex;
     }
 
@@ -97,6 +97,7 @@
         opacity: 0;
         transform: translateY(-10px);
     }
+
     100% {
         opacity: 1;
         transform: translateY(0);

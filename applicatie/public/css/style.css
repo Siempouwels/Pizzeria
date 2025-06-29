@@ -1,8 +1,48 @@
-*, *::before, *::after {
+:root {
+    /* Kleuren */
+    --color-bg-dark: #2c3e50;
+    --color-bg-dark-hover: #34495e;
+    --color-bg-light: #f4f4f4;
+    --color-bg-white: #ffffff;
+    --color-bg-subtle: #fafafa;
+    --color-border-light: #e0e0e0;
+    --color-border: #ddd;
+    --color-heading: #444;
+    --color-subheading: #222;
+    --color-text: #333;
+    --color-text-muted: #555;
+    --color-text-light: #ccc;
+    --color-link: #007bff;
+    --color-hover-row: #f0f0f0;
+    --color-error: red;
+
+    /* Typography */
+    --font-family: 'Segoe UI', sans-serif;
+    --font-size-base: 15px;
+    --font-size-small: 14px;
+    --font-size-heading: 22px;
+
+    /* Spacing & layout */
+    --container-width: 90%;
+    --container-max-width: 900px;
+    --padding-sm: 10px;
+    --padding-md: 20px;
+    --padding-lg: 30px;
+    --gap: 15px;
+    --radius: 8px;
+    --box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    --box-shadow-soft: 0 1px 4px rgba(0, 0, 0, 0.06);
+}
+
+
+*,
+*::before,
+*::after {
     box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
     margin: 0;
     padding: 0;
     width: 100%;
@@ -10,34 +50,32 @@ html, body {
 }
 
 body {
-    font-family: 'Segoe UI', sans-serif;
-    background-color: #f4f4f4;
-    color: #333;
-    margin: 0;
-    padding: 0;
+    font-family: var(--font-family);
+    background-color: var(--color-bg-light);
+    color: var(--color-text);
 }
 
 /* Container opmaak */
 .container {
-    width: 90%;
-    max-width: 900px;
-    margin: 30px auto;
-    background-color: white;
-    padding: 20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    border-radius: 8px;
+    width: var(--container-width);
+    max-width: var(--container-max-width);
+    margin: var(--padding-lg) auto;
+    background-color: var(--color-bg-white);
+    padding: var(--padding-md);
+    box-shadow: var(--box-shadow);
+    border-radius: var(--radius);
 }
 
 /* Koppen */
 h1,
 h2 {
-    color: #444;
+    color: var(--color-heading);
     margin-bottom: 10px;
 }
 
 /* Links */
 a {
-    color: #007bff;
+    color: var(--color-link);
     text-decoration: none;
 }
 
@@ -47,8 +85,8 @@ a:hover {
 
 /* Productitems */
 .item {
-    border-bottom: 1px solid #ddd;
-    padding: 15px 0;
+    border-bottom: 1px solid var(--color-border);
+    padding: var(--gap) 0;
 }
 
 .item:last-child {
@@ -57,24 +95,24 @@ a:hover {
 
 .item h3 {
     margin: 0;
-    color: #222;
+    color: var(--color-subheading);
 }
 
 .item p {
     margin: 4px 0;
-    color: #555;
+    color: var(--color-text-muted);
 }
 
 /* Logout positie */
 .logout {
     text-align: right;
-    margin-bottom: 10px;
+    margin-bottom: var(--padding-sm);
 }
 
 /* Formulieren */
 form label {
     display: block;
-    margin-top: 15px;
+    margin-top: var(--gap);
     font-weight: bold;
 }
 
@@ -92,10 +130,10 @@ form select {
 
 /* Knoppen */
 button {
-    margin-top: 20px;
-    padding: 10px 20px;
-    background-color: #2c3e50;
-    color: white;
+    margin-top: var(--padding-md);
+    padding: var(--padding-sm) var(--padding-md);
+    background-color: var(--color-bg-dark);
+    color: var(--color-bg-white);
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -104,13 +142,13 @@ button {
 }
 
 button:hover {
-    background-color: #34495e;
+    background-color: var(--color-bg-dark-hover);
 }
 
 /* Foutmeldingen */
 p.error,
 .error {
-    color: red;
+    color: var(--color-error);
     font-weight: bold;
     margin-top: 10px;
 }
@@ -132,6 +170,6 @@ p.error,
 @media (min-width: 1025px) {
     form input,
     form select {
-        font-size: 15px;
+        font-size: var(--font-size-base);
     }
 }

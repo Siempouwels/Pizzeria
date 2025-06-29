@@ -3,7 +3,6 @@
 namespace App\Controllers;
 
 use App\Models\Order;
-use Core\Auth;
 
 class AdminOrderController
 {

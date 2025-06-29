@@ -16,13 +16,14 @@
         <h2><?= isset($product) ? 'Product bewerken' : 'Nieuw product toevoegen' ?></h2>
 
         <!-- Meldingen -->
-        <?php if (!empty($_SESSION['errors'])): ?>
-            <?php foreach ($_SESSION['errors'] as $error): ?>
+        <?php if (!empty($_SESSION['errors'])) : ?>
+            <?php foreach ($_SESSION['errors'] as $error) : ?>
                 <p class="error"><?= htmlspecialchars($error) ?></p>
-            <?php endforeach; unset($_SESSION['errors']); ?>
+            <?php endforeach;
+            unset($_SESSION['errors']); ?>
         <?php endif; ?>
 
-        <?php if (!empty($_SESSION['success'])): ?>
+        <?php if (!empty($_SESSION['success'])) : ?>
             <p class="success"><?= htmlspecialchars($_SESSION['success']) ?></p>
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
@@ -53,7 +54,7 @@
 
             <label for="type">Type:</label><br>
             <select id="type" name="type" required>
-                <?php foreach ($types as $typeOption): ?>
+                <?php foreach ($types as $typeOption) : ?>
                     <?php
                         $selected = ($product['type_id'] ?? '') === $typeOption['name'] ? 'selected' : '';
                     ?>
@@ -65,7 +66,7 @@
 
             <fieldset>
                 <legend>Ingrediënten:</legend>
-                <?php foreach ($allIngredients as $ingredient): ?>
+                <?php foreach ($allIngredients as $ingredient) : ?>
                     <?php
                         $name = $ingredient['name'];
                         $checked = isset($selectedIngredients) && in_array($name, $selectedIngredients) ? 'checked' : '';

@@ -15,14 +15,14 @@
     <div class="container">
         <h2><?= isset($ingredient) ? 'Ingrediënt bewerken' : 'Nieuw ingrediënt toevoegen' ?></h2>
 
-        <?php if (!empty($_SESSION['errors'])): ?>
-            <?php foreach ($_SESSION['errors'] as $error): ?>
+        <?php if (!empty($_SESSION['errors'])) : ?>
+            <?php foreach ($_SESSION['errors'] as $error) : ?>
                 <p class="error"><?= htmlspecialchars($error) ?></p>
             <?php endforeach;
             unset($_SESSION['errors']); ?>
         <?php endif; ?>
 
-        <?php if (!empty($_SESSION['success'])): ?>
+        <?php if (!empty($_SESSION['success'])) : ?>
             <p class="success"><?= htmlspecialchars($_SESSION['success']) ?></p>
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>

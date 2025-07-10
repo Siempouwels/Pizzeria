@@ -3,20 +3,26 @@
 namespace App\Models;
 
 use Core\Model;
+use PDO;
 
 class User extends Model
 {
     public function findByCredentials(string $username, string $password): ?array
     {
-        $stmt = $this->db->prepare(
-            "SELECT * FROM [User] WHERE username = :username"
-        );
+        $sql = "
+            SELECT TOP 1 *
+            FROM [User]
+            WHERE username = :username
+        ";
+        $stmt = $this->db->prepare($sql);
+
         $stmt->bindParam(':username', $username);
         $stmt->execute();
 
-        $user = $stmt->fetch();
+        $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
+            unset($user['password']);
             return $user;
         }
 

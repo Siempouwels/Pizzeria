@@ -14,7 +14,10 @@
 
     <div class="container">
         <h2>Productbeheer</h2>
-        <p><a href="/admin/producten/toevoegen">➕ Nieuw product toevoegen</a></p>
+
+        <p>
+            <a href="/admin/producten/toevoegen">➕ Nieuw product toevoegen</a>
+        </p>
 
         <?php if (empty($products)) : ?>
             <p>Er zijn nog geen producten beschikbaar.</p>

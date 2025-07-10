@@ -49,21 +49,25 @@
                         <input
                             type="hidden"
                             name="csrf_token"
-                            value="<?= \Core\Auth::csrfToken() ?>"
-                        >
+                            value="<?= \Core\Auth::csrfToken() ?>">
                         <input
                             type="hidden"
                             name="item_name"
-                            value="<?= htmlspecialchars($item['item_name']) ?>"
-                        >
-                        <label for="qty_<?= htmlspecialchars($item['item_name']) ?>">Aantal:</label>
+                            value="<?= htmlspecialchars($item['item_name']) ?>">
+                        <?php
+                        $sanitizedId = 'qty_' . preg_replace(
+                            '/[^a-zA-Z0-9_-]/',
+                            '_',
+                            $item['item_name']
+                        );
+                        ?>
+                        <label for="<?= $sanitizedId ?>">Aantal:</label>
                         <input
                             type="number"
                             name="quantity"
-                            id="qty_<?= htmlspecialchars($item['item_name']) ?>"
+                            id="<?= $sanitizedId ?>"
                             value="0"
-                            min="0"
-                        >
+                            min="0">
                         <button type="submit">Toevoegen</button>
                     </form>
                 </div>

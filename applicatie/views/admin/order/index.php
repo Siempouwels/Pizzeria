@@ -37,7 +37,7 @@
 
                     <p><strong>Adres:</strong> <?= htmlspecialchars($order['address'] ?? '') ?></p>
 
-                    <p><strong>Status:</strong>
+                    <p><strong>Status:</strong></p>
                     <form method="post" action="/admin/bestellingen/update-status" class="inline-form">
                         <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
 
@@ -55,7 +55,7 @@
                         </select>
                         <noscript><button type="submit">Wijzig</button></noscript>
                     </form>
-                    </p>
+                    
 
                     <p><strong>Behandeld door:</strong> <?= htmlspecialchars($order['personnel_username'] ?? '-') ?></p>
 

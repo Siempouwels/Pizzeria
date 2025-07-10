@@ -39,8 +39,7 @@
                 name="name"
                 value="<?= htmlspecialchars($product['name'] ?? '') ?>"
                 required
-                <?= isset($product) ? 'readonly' : '' ?>
-            ><br><br>
+                <?= isset($product) ? 'readonly' : '' ?>><br><br>
 
             <label for="price">Prijs:</label><br>
             <input
@@ -49,14 +48,14 @@
                 id="price"
                 name="price"
                 value="<?= htmlspecialchars($product['price'] ?? '') ?>"
-                required
-            ><br><br>
+                required><br><br>
 
             <label for="type">Type:</label><br>
             <select id="type" name="type" required>
+                <option value="" disabled <?= !isset($product['type_id']) ? 'selected' : '' ?>>-- Kies een type --</option>
                 <?php foreach ($types as $typeOption) : ?>
                     <?php
-                        $selected = ($product['type_id'] ?? '') === $typeOption['name'] ? 'selected' : '';
+                    $selected = ($product['type_id'] ?? '') === $typeOption['name'] ? 'selected' : '';
                     ?>
                     <option value="<?= htmlspecialchars($typeOption['name']) ?>" <?= $selected ?>>
                         <?= htmlspecialchars($typeOption['name']) ?>
@@ -68,8 +67,8 @@
                 <legend>Ingrediënten:</legend>
                 <?php foreach ($allIngredients as $ingredient) : ?>
                     <?php
-                        $name = $ingredient['name'];
-                        $checked = isset($selectedIngredients) && in_array($name, $selectedIngredients) ? 'checked' : '';
+                    $name = $ingredient['name'];
+                    $checked = isset($selectedIngredients) && in_array($name, $selectedIngredients) ? 'checked' : '';
                     ?>
                     <label>
                         <input type="checkbox" name="ingredients[]" value="<?= htmlspecialchars($name) ?>" <?= $checked ?>>

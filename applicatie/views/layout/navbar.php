@@ -18,7 +18,7 @@ if ($isPersonnel) {
 ?>
 
 <nav class="main-navbar">
-    <input type="checkbox" id="menu-toggle" />
+    <input type="checkbox" id="menu-toggle">
     <label for="menu-toggle" class="menu-icon">&#9776;</label>
 
     <ul class="nav-left menu">

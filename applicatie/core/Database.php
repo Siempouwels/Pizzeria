@@ -29,6 +29,8 @@ class Database
                         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
                     ]
                 );
+
+                self::$verbinding->exec('SET ROWCOUNT 50');
             } catch (PDOException $e) {
                 die("❌ Verbindingsfout met database: " . $e->getMessage());
             }

@@ -7,6 +7,7 @@
     <title>Gebruikersbeheer</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <link rel="stylesheet" href="/public/css/navbar.css">
+    <link rel="stylesheet" href="/public/css/pagination.css">
 </head>
 
 <body>
@@ -18,7 +19,7 @@
         <?php if (empty($users)) : ?>
             <p>Er zijn nog geen geregistreerde gebruikers.</p>
         <?php else : ?>
-            <table>
+            <table class="user-table">
                 <thead>
                     <tr>
                         <th>Gebruikersnaam</th>
@@ -39,19 +40,42 @@
                             </td>
                             <td><?= htmlspecialchars($user['address'] ?? '') ?></td>
                             <td><?= htmlspecialchars($user['role'] ?? '') ?></td>
-                            <td>
-                                <a href="/admin/gebruikers/bewerken/<?= $username ?>">✏️</a>
+                            <td class="actions">
+                                <a href="/admin/gebruikers/bewerken/<?= $username ?>" title="Bewerken">✏️</a>
                                 <a
                                     href="/admin/gebruikers/verwijderen/<?= $username ?>"
-                                    onclick="return confirm(
-                                        'Weet je zeker dat je deze gebruiker wilt verwijderen?'
-                                    );"
+                                    title="Verwijderen"
+                                    onclick="return confirm('Weet je zeker dat je deze gebruiker wilt verwijderen?');"
                                 >🗑️</a>
                             </td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
             </table>
+
+            <?php if (isset($totalPages) && $totalPages > 1): ?>
+            <nav class="pagination">
+                <?php if ($page > 1): ?>
+                    <a href="?page=<?= $page - 1 ?>" class="prev">« Vorige</a>
+                <?php else: ?>
+                    <span class="disabled">« Vorige</span>
+                <?php endif; ?>
+
+                <?php for ($p = 1; $p <= $totalPages; $p++): ?>
+                    <?php if ($p === $page): ?>
+                        <span class="current"><?= $p ?></span>
+                    <?php else: ?>
+                        <a href="?page=<?= $p ?>"><?= $p ?></a>
+                    <?php endif; ?>
+                <?php endfor; ?>
+
+                <?php if ($page < $totalPages): ?>
+                    <a href="?page=<?= $page + 1 ?>" class="next">Volgende »</a>
+                <?php else: ?>
+                    <span class="disabled">Volgende »</span>
+                <?php endif; ?>
+            </nav>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </body>

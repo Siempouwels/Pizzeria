@@ -79,27 +79,37 @@ class User extends Model
         $stmt->execute();
     }
 
-    public function getAll(): array
+    public function getPage(int $page, int $perPage): array
     {
-        $sql = "SELECT
-                username,
-                first_name,
-                last_name,
-                [address],
-                [role]
-            FROM [User]
-            ORDER BY [role], username
-        ";
-
-        $stmt = $this->db->query($sql);
-
+        $offset = ($page - 1) * $perPage;
+        $sql = "
+        SELECT
+            username,
+            first_name,
+            last_name,
+            [address],
+            [role]
+        FROM [User]
+        ORDER BY [role], username
+        OFFSET :offset ROWS
+        FETCH NEXT :perPage ROWS ONLY
+    ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':perPage', $perPage, PDO::PARAM_INT);
+        $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function countAll(): int
+    {
+        $sql = "SELECT COUNT(*) FROM [User]";
+        return (int) $this->db->query($sql)->fetchColumn();
     }
 
     public function findByUsername(string $username): ?array
     {
         $sql = "SELECT
-                id,
                 username,
                 first_name,
                 last_name,
@@ -114,21 +124,6 @@ class User extends Model
         $stmt->execute();
 
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
-    }
-
-    public function updateRole(string $username, string $role): void
-    {
-        $sql = "UPDATE [User]
-            SET [role] = :role
-            WHERE username = :username
-        ";
-
-        $stmt = $this->db->prepare($sql);
-
-        $stmt->bindParam(':role', $role);
-        $stmt->bindParam(':username', $username);
-
-        $stmt->execute();
     }
 
     public function delete(string $username): void

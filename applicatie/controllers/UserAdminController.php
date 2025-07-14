@@ -15,7 +15,19 @@ class UserAdminController
 
     public function index(): void
     {
-        $users = $this->userModel->getAll();
+        // Huidige pagina ophalen (default 1)
+        $page = isset($_GET['page']) && (int)$_GET['page'] > 0
+            ? (int)$_GET['page']
+            : 1;
+        $perPage = 20; // kies zelf hoeveel per pagina
+
+        // Data + totaal
+        $totalUsers = $this->userModel->countAll();
+        $users       = $this->userModel->getPage($page, $perPage);
+
+        // Bereken aantal pagina's
+        $totalPages = (int) ceil($totalUsers / $perPage);
+
         include __DIR__ . '/../views/admin/user/index.php';
     }
 

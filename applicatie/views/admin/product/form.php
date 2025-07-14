@@ -15,7 +15,6 @@
     <div class="container">
         <h2><?= isset($product) ? 'Product bewerken' : 'Nieuw product toevoegen' ?></h2>
 
-        <!-- Meldingen -->
         <?php if (!empty($_SESSION['errors'])) : ?>
             <?php foreach ($_SESSION['errors'] as $error) : ?>
                 <p class="error"><?= htmlspecialchars($error) ?></p>
@@ -28,7 +27,6 @@
             <?php unset($_SESSION['success']); ?>
         <?php endif; ?>
 
-        <!-- Formulier -->
         <form method="post" action="<?= isset($product) ? '/admin/producten/update' : '/admin/producten/create' ?>">
             <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
 

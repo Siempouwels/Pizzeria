@@ -9,16 +9,14 @@ class User extends Model
 {
     public function findByCredentials(string $username, string $password): ?array
     {
-        $sql = "
-            SELECT TOP 1 *
+        $sql = "SELECT TOP 1 *
             FROM [User]
             WHERE username = :username
         ";
-        $stmt = $this->db->prepare($sql);
 
+        $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
-
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
@@ -32,8 +30,12 @@ class User extends Model
     public function exists(string $username): bool
     {
         $stmt = $this->db->prepare(
-            "SELECT COUNT(*) FROM [User] WHERE username = :username"
+            "SELECT TOP 1 
+                1 FROM [User] 
+            WHERE username = :username
+            "
         );
+
         $stmt->bindParam(':username', $username);
         $stmt->execute();
 
@@ -48,11 +50,24 @@ class User extends Model
         string $address,
         string $role
     ): void {
-        $stmt = $this->db->prepare(
-            "INSERT INTO [User] (username, password, first_name, last_name, address, role)
-             VALUES (:username, :password, :first_name, :last_name, :address, :role)"
-        );
+        $sql = "INSERT INTO [User] (
+                username,
+                password,
+                first_name,
+                last_name,
+                [address],
+                [role]
+            ) VALUES (
+                :username,
+                :password,
+                :first_name,
+                :last_name,
+                :address,
+                :role
+            )
+        ";
 
+        $stmt = $this->db->prepare($sql);
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $stmt->bindParam(':username', $username);
@@ -61,49 +76,67 @@ class User extends Model
         $stmt->bindParam(':last_name', $lastName);
         $stmt->bindParam(':address', $address);
         $stmt->bindParam(':role', $role);
-
         $stmt->execute();
     }
 
     public function getAll(): array
     {
-        $stmt = $this->db->query(
-            "SELECT username, first_name, last_name, address, role
-             FROM [User]
-             ORDER BY role, username"
-        );
+        $sql = "SELECT
+                username,
+                first_name,
+                last_name,
+                [address],
+                [role]
+            FROM [User]
+            ORDER BY [role], username
+        ";
 
-        return $stmt->fetchAll();
+        $stmt = $this->db->query($sql);
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     public function findByUsername(string $username): ?array
     {
-        $stmt = $this->db->prepare(
-            "SELECT * FROM [User] WHERE username = :username"
-        );
+        $sql = "SELECT
+                id,
+                username,
+                first_name,
+                last_name,
+                [address],
+                [role]
+            FROM [User]
+            WHERE username = :username
+        ";
+
+        $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
 
-        return $stmt->fetch() ?: null;
+        return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;
     }
 
     public function updateRole(string $username, string $role): void
     {
-        $stmt = $this->db->prepare(
-            "UPDATE [User]
-             SET role = :role
-             WHERE username = :username"
-        );
-        $stmt->bindParam(':username', $username);
+        $sql = "UPDATE [User]
+            SET [role] = :role
+            WHERE username = :username
+        ";
+
+        $stmt = $this->db->prepare($sql);
+
         $stmt->bindParam(':role', $role);
+        $stmt->bindParam(':username', $username);
+
         $stmt->execute();
     }
 
     public function delete(string $username): void
     {
-        $stmt = $this->db->prepare(
-            "DELETE FROM [User] WHERE username = :username"
-        );
+        $sql = "DELETE FROM [User]
+            WHERE username = :username";
+
+        $stmt = $this->db->prepare($sql);
         $stmt->bindParam(':username', $username);
         $stmt->execute();
     }
@@ -115,21 +148,21 @@ class User extends Model
         string $lastName,
         ?string $address
     ): void {
-        $stmt = $this->db->prepare(
-            "UPDATE [User]
-             SET role = :role,
-                 first_name = :first_name,
-                 last_name = :last_name,
-                 address = :address
-             WHERE username = :username"
-        );
+        $sql = "UPDATE [User]
+            SET [role]       = :role,
+                first_name   = :first_name,
+                last_name    = :last_name,
+                [address]     = :address
+            WHERE username = :username
+        ";
 
+        $stmt = $this->db->prepare($sql);
         $stmt->execute([
-            ':username' => $username,
-            ':role' => $role,
+            ':username'   => $username,
+            ':role'       => $role,
             ':first_name' => $firstName,
-            ':last_name' => $lastName,
-            ':address' => $address,
+            ':last_name'  => $lastName,
+            ':address'    => $address,
         ]);
     }
 }

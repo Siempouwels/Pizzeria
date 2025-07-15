@@ -7,6 +7,39 @@ use PDO;
 
 class Ingredient extends Model
 {
+    public function countAll(): int
+    {
+        $stmt = $this->db->query(
+            "SELECT COUNT(*) AS cnt FROM Ingredient"
+        );
+        $row = $stmt->fetch(PDO::FETCH_ASSOC);
+        return (int) ($row['cnt'] ?? 0);
+    }
+
+    public function getPage(int $page, int $perPage): array
+    {
+        $offset = ($page - 1) * $perPage;
+        $sql = "SELECT i.name,
+                   CASE
+                       WHEN EXISTS (
+                           SELECT 1
+                           FROM Item_Ingredient ii
+                           WHERE ii.ingredient_name = i.name
+                       ) THEN 1 ELSE 0
+                   END AS is_used
+            FROM Ingredient i
+            ORDER BY i.name ASC
+            OFFSET :offset ROWS
+            FETCH NEXT :perPage ROWS ONLY";
+
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':offset',  $offset,  PDO::PARAM_INT);
+        $stmt->bindValue(':perPage', $perPage, PDO::PARAM_INT);
+        $stmt->execute();
+
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getAll(): array
     {
         $stmt = $this->db->query("SELECT i.name,

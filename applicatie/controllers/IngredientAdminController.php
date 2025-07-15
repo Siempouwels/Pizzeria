@@ -15,7 +15,17 @@ class IngredientAdminController
 
     public function index(): void
     {
-        $ingredients = $this->ingredientModel->getAll();
+        // pagina uit URL (1-based)
+        $page    = isset($_GET['page']) && (int)$_GET['page'] > 0
+            ? (int)$_GET['page']
+            : 1;
+        $perPage = 10;
+
+        // totaal en data
+        $total   = $this->ingredientModel->countAll();
+        $ingredients = $this->ingredientModel->getPage($page, $perPage);
+        $totalPages  = (int) ceil($total / $perPage);
+
         include __DIR__ . '/../views/admin/ingredient/index.php';
     }
 

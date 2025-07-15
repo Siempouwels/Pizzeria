@@ -50,7 +50,6 @@ class Cart extends Model
         $errors = [];
         $success = false;
 
-        // Validatie
         if (! $firstName) {
             $errors[] = "Voornaam is verplicht.";
         }

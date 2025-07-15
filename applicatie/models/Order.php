@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Core\Model;
+use PDO;
 
 class Order extends Model
 {
@@ -82,17 +83,24 @@ class Order extends Model
         return $itemsPerOrder;
     }
 
-    public function getActiveOrders(): array
+    public function getActiveOrdersPage(int $page, int $perPage): array
     {
-        $stmt = $this->db->query(
-            "SELECT *
-         FROM Pizza_Order
-         WHERE status IS NULL
-            OR status != 3
-         ORDER BY datetime DESC"
-        );
+        $offset = ($page - 1) * $perPage;
+        $sql = "
+            SELECT *
+            FROM Pizza_Order
+            WHERE status IS NULL
+               OR status != 3
+            ORDER BY datetime DESC
+            OFFSET :offset ROWS
+            FETCH NEXT :perPage ROWS ONLY
+        ";
+        $stmt = $this->db->prepare($sql);
+        $stmt->bindValue(':offset', $offset, PDO::PARAM_INT);
+        $stmt->bindValue(':perPage', $perPage, PDO::PARAM_INT);
+        $stmt->execute();
 
-        return $this->mapStatusLabels($stmt->fetchAll());
+        return $this->mapStatusLabels($stmt->fetchAll(PDO::FETCH_ASSOC));
     }
 
     public function getAllOrders(): array

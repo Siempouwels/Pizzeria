@@ -7,6 +7,7 @@
     <title>Alle bestellingen</title>
     <link rel="stylesheet" href="/public/css/style.css">
     <link rel="stylesheet" href="/public/css/navbar.css">
+    <link rel="stylesheet" href="/public/css/pagination.css">
 </head>
 
 <body>
@@ -40,7 +41,6 @@
                     <p><strong>Status:</strong></p>
                     <form method="post" action="/admin/bestellingen/update-status" class="inline-form">
                         <input type="hidden" name="csrf_token" value="<?= \Core\Auth::csrfToken() ?>">
-
                         <input type="hidden" name="order_id" value="<?= htmlspecialchars($order['order_id']) ?>">
                         <select name="status" onchange="this.form.submit()">
                             <option value="1" <?= $order['status'] == 1 ? 'selected' : '' ?>>
@@ -55,7 +55,6 @@
                         </select>
                         <noscript><button type="submit">Wijzig</button></noscript>
                     </form>
-                    
 
                     <p><strong>Behandeld door:</strong> <?= htmlspecialchars($order['personnel_username'] ?? '-') ?></p>
 
@@ -63,8 +62,8 @@
                         <ul>
                             <?php foreach ($orderItems[$order['order_id']] as $item) : ?>
                                 <li>
-                                    <?= htmlspecialchars($item['item_name'] ?? '') ?> -
-                                    <?= intval($item['quantity'] ?? 0) ?> stuks @ €
+                                    <?= htmlspecialchars($item['item_name'] ?? '') ?> –
+                                    <?= (int)$item['quantity'] ?> stuks @ €
                                     <?= number_format($item['price'] ?? 0, 2, ',', '.') ?>
                                 </li>
                             <?php endforeach; ?>
@@ -75,6 +74,30 @@
                 </div>
                 <hr>
             <?php endforeach; ?>
+
+            <?php if (isset($totalPages) && $totalPages > 1) : ?>
+                <nav class="pagination">
+                    <?php if ($page > 1) : ?>
+                        <a href="?page=<?= $page - 1 ?>" class="prev">« Vorige</a>
+                    <?php else : ?>
+                        <span class="disabled">« Vorige</span>
+                    <?php endif; ?>
+
+                    <?php for ($p = 1; $p <= $totalPages; $p++) : ?>
+                        <?php if ($p === $page) : ?>
+                            <span class="current"><?= $p ?></span>
+                        <?php else : ?>
+                            <a href="?page=<?= $p ?>"><?= $p ?></a>
+                        <?php endif; ?>
+                    <?php endfor; ?>
+
+                    <?php if ($page < $totalPages) : ?>
+                        <a href="?page=<?= $page + 1 ?>" class="next">Volgende »</a>
+                    <?php else : ?>
+                        <span class="disabled">Volgende »</span>
+                    <?php endif; ?>
+                </nav>
+            <?php endif; ?>
         <?php endif; ?>
     </div>
 </body>

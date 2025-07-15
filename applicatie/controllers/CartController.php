@@ -15,7 +15,6 @@ class CartController
         $success = $_SESSION['success'] ?? false;
         $errors = $_SESSION['errors'] ?? [];
 
-        // reset na tonen
         unset($_SESSION['success'], $_SESSION['errors']);
 
         $user = Auth::user();

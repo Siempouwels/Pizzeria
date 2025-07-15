@@ -53,25 +53,25 @@
                 </tbody>
             </table>
 
-            <?php if (isset($totalPages) && $totalPages > 1): ?>
+            <?php if (isset($totalPages) && $totalPages > 1) : ?>
             <nav class="pagination">
-                <?php if ($page > 1): ?>
+                <?php if ($page > 1) : ?>
                     <a href="?page=<?= $page - 1 ?>" class="prev">« Vorige</a>
-                <?php else: ?>
+                <?php else : ?>
                     <span class="disabled">« Vorige</span>
                 <?php endif; ?>
 
-                <?php for ($p = 1; $p <= $totalPages; $p++): ?>
-                    <?php if ($p === $page): ?>
+                <?php for ($p = 1; $p <= $totalPages; $p++) : ?>
+                    <?php if ($p === $page) : ?>
                         <span class="current"><?= $p ?></span>
-                    <?php else: ?>
+                    <?php else : ?>
                         <a href="?page=<?= $p ?>"><?= $p ?></a>
                     <?php endif; ?>
                 <?php endfor; ?>
 
-                <?php if ($page < $totalPages): ?>
+                <?php if ($page < $totalPages) : ?>
                     <a href="?page=<?= $page + 1 ?>" class="next">Volgende »</a>
-                <?php else: ?>
+                <?php else : ?>
                     <span class="disabled">Volgende »</span>
                 <?php endif; ?>
             </nav>

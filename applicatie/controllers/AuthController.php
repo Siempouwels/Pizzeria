@@ -77,12 +77,10 @@ class AuthController
         $address = $_POST['address'] ?? '';
         $role = 'Customer'; // standaardrol
 
-        // Validatie (simpel)
         if ($username === '' || $password === '' || $firstName === '' || $lastName === '' || $address === '') {
             $this->errors[] = "Alle velden zijn verplicht.";
         }
 
-        // Check of gebruiker al bestaat
         if ($this->userModel->exists($username)) {
             $this->errors[] = "Gebruikersnaam bestaat al.";
         }
@@ -93,10 +91,8 @@ class AuthController
             return;
         }
 
-        // Voeg gebruiker toe
         $this->userModel->create($username, $password, $firstName, $lastName, $address, $role);
 
-        // Login direct na registratie
         $_SESSION['username'] = $username;
         $_SESSION['role'] = $role;
         $_SESSION['first_name'] = $firstName;

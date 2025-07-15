@@ -19,7 +19,6 @@ use Core\Router;
 Auth::ensureSession();
 $router = new Router();
 
-// Publieke routes
 $router->get('/', fn() => (new ProductController())->index());
 $router->post('/add-to-cart', fn() => (new ProductController())->addToCart());
 
@@ -38,7 +37,6 @@ $router->post('/cart/clear', fn() => (new CartController())->clearCart());
 $router->post('/cart/checkout', fn() => (new CartController())->checkout());
 $router->get('/mijn-bestellingen', fn() => (new OrderHistoryController())->index());
 
-// Admin-only routes
 $router->get('/admin/bestellingen', function () {
     Auth::requirePersonnel();
     (new AdminOrderController())->index();
@@ -99,7 +97,6 @@ $router->get('/admin/producten/verwijderen/{name}', function ($name) {
     (new ProductAdminController())->delete(urldecode($name));
 });
 
-// Ingrediënten beheren (admin-only)
 $router->get('/admin/ingredienten', function () {
     Auth::requirePersonnel();
     (new IngredientAdminController())->index();

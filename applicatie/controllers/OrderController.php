@@ -62,8 +62,6 @@ class OrderController
             $errors[] = "⚠️ Ongeldige invoer.";
         }
 
-        // Toon opnieuw het formulier met eventueel feedback
-
         $items = $productModel->getAll();
 
         include __DIR__ . '/../views/order/add_products.php';

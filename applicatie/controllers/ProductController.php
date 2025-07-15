@@ -17,23 +17,34 @@ class ProductController
         $this->ingredientModel = new Ingredient();
     }
 
+
     public function index(): void
     {
         if (! isset($_SESSION['cart'])) {
             $_SESSION['cart'] = [];
         }
 
+        $errors  = [];
         $success = false;
-        $errors = [];
+
+        $page    = isset($_GET['page']) && (int)$_GET['page'] > 0
+            ? (int)$_GET['page'] : 1;
+        $perPage = 5;
 
         try {
-            $items = $this->productModel->getAllWithType();
-            $ingredients = $this->ingredientModel->getPerItem(array_column($items, 'item_name'));
+            $totalItems  = $this->productModel->countAll();
+            $items       = $this->productModel->getPageWithType($page, $perPage);
+            $ingredients = $this->ingredientModel->getPerItem(
+                array_column($items, 'item_name')
+            );
         } catch (PDOException $e) {
-            $errors[] = "❌ Fout bij ophalen data: " . $e->getMessage();
-            $items = [];
-            $ingredients = [];
+            $errors[]     = "❌ Fout bij ophalen data: " . $e->getMessage();
+            $totalItems   = 0;
+            $items        = [];
+            $ingredients  = [];
         }
+
+        $totalPages = (int) ceil($totalItems / $perPage);
 
         include __DIR__ . '/../views/product/index.php';
     }

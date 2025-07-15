@@ -3,14 +3,31 @@
 namespace App\Controllers;
 
 use App\Models\Order;
+use PDOException;
 
 class AdminOrderController
 {
     public function index(): void
     {
-        $orderModel  = new Order();
-        $orders     = $orderModel->getActiveOrders();
-        $orderItems = $orderModel->getOrderItems($orders);
+        $orderModel = new Order();
+
+        $page    = isset($_GET['page']) && (int)$_GET['page'] > 0
+            ? (int)$_GET['page']
+            : 1;
+        $perPage = 5;
+
+        try {
+            $totalOrders = $orderModel->countActiveOrders();
+            $orders      = $orderModel->getActiveOrdersPage($page, $perPage);
+            $orderItems  = $orderModel->getOrderItems($orders);
+        } catch (PDOException $e) {
+            $totalOrders = 0;
+            $orders      = [];
+            $orderItems  = [];
+            $errors[]    = "❌ Fout bij ophalen bestellingen: " . $e->getMessage();
+        }
+
+        $totalPages = (int) ceil($totalOrders / $perPage);
 
         include __DIR__ . '/../views/admin/order/index.php';
     }

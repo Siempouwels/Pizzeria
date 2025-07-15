@@ -9,8 +9,7 @@ class Ingredient extends Model
 {
     public function getAll(): array
     {
-        $stmt = $this->db->query("
-            SELECT i.name,
+        $stmt = $this->db->query("SELECT i.name,
                    CASE
                        WHEN EXISTS (
                            SELECT 1
@@ -34,12 +33,12 @@ class Ingredient extends Model
         }
 
         $placeholders = rtrim(str_repeat('?,', count($itemNames)), ',');
-        $stmt = $this->db->prepare("
-            SELECT ii.item_name, ing.name AS ingredient_name
+        $stmt = $this->db->prepare(
+            "SELECT ii.item_name, ing.name AS ingredient_name
             FROM Item_Ingredient ii
             JOIN Ingredient ing ON ii.ingredient_name = ing.name
-            WHERE ii.item_name IN ($placeholders)
-        ");
+            WHERE ii.item_name IN ($placeholders)"
+        );
         $stmt->execute($itemNames);
 
         $result = [];
@@ -81,8 +80,7 @@ class Ingredient extends Model
 
     public function findByName(string $name): ?array
     {
-        $stmt = $this->db->prepare("
-            SELECT name,
+        $stmt = $this->db->prepare("SELECT name,
                    CASE
                        WHEN EXISTS (
                            SELECT 1
@@ -93,8 +91,7 @@ class Ingredient extends Model
                        ELSE 0
                    END AS is_used
             FROM Ingredient
-            WHERE name = :name
-        ");
+            WHERE name = :name");
         $stmt->execute(['name' => $name]);
 
         return $stmt->fetch(PDO::FETCH_ASSOC) ?: null;

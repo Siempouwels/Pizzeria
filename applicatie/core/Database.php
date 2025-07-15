@@ -30,7 +30,7 @@ class Database
                     ]
                 );
 
-                self::$verbinding->exec('SET ROWCOUNT 50');
+                self::$verbinding->exec('SET ROWCOUNT 1000');
             } catch (PDOException $e) {
                 die("❌ Verbindingsfout met database: " . $e->getMessage());
             }

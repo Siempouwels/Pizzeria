@@ -7,41 +7,6 @@ use PDO;
 
 class Order extends Model
 {
-
-    public function getUserOrders(): array
-    {
-        if (isset($_SESSION['username'])) {
-            $stmt = $this->db->prepare(
-                "SELECT *
-                 FROM Pizza_Order
-                 WHERE client_username = :username
-                 ORDER BY datetime DESC"
-            );
-            $stmt->execute([':username' => $_SESSION['username']]);
-
-            return $this->mapStatusLabels($stmt->fetchAll());
-        }
-
-        if (!empty($_SESSION['order_ids'])) {
-            $ids = array_filter($_SESSION['order_ids'], 'is_numeric');
-
-            if (!empty($ids)) {
-                $in = implode(',', array_fill(0, count($ids), '?'));
-                $stmt = $this->db->prepare(
-                    "SELECT *
-                     FROM Pizza_Order
-                     WHERE order_id IN ($in)
-                     ORDER BY datetime DESC"
-                );
-                $stmt->execute($ids);
-
-                return $this->mapStatusLabels($stmt->fetchAll());
-            }
-        }
-
-        return [];
-    }
-
     public function getOrderItems(array $orders): array
     {
         if (empty($orders)) {

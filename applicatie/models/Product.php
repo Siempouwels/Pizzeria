@@ -34,18 +34,6 @@ class Product extends Model
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getAllWithType(): array
-    {
-        $stmt = $this->db->prepare("
-            SELECT i.name AS item_name, i.price, t.name AS type
-            FROM Item i
-            JOIN ItemType t ON i.type_id = t.name
-            ORDER BY t.name, i.name
-        ");
-        $stmt->execute();
-        return $stmt->fetchAll();
-    }
-
     public function getAll(): array
     {
         $stmt = $this->db->query("SELECT name, price FROM Item ORDER BY name");

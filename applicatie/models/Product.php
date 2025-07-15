@@ -16,8 +16,8 @@ class Product extends Model
     public function getPageWithType(int $page, int $perPage): array
     {
         $offset = ($page - 1) * $perPage;
-        $sql = "
-            SELECT
+
+        $sql = "SELECT
                 i.name       AS item_name,
                 i.price,
                 t.name       AS type
@@ -25,8 +25,8 @@ class Product extends Model
             JOIN ItemType t ON i.type_id = t.name
             ORDER BY t.name, i.name
             OFFSET :offset ROWS
-            FETCH NEXT :perPage ROWS ONLY
-        ";
+            FETCH NEXT :perPage ROWS ONLY";
+
         $stmt = $this->db->prepare($sql);
         $stmt->bindValue(':offset', $offset, type: PDO::PARAM_INT);
         $stmt->bindValue(':perPage', $perPage, PDO::PARAM_INT);

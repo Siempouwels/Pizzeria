@@ -16,9 +16,26 @@ class ProductAdminController
         $this->ingredientModel = new Ingredient();
     }
 
+
     public function index(): void
     {
-        $products = $this->productModel->getAllWithType();
+        $page = 1;
+        
+        if (
+            isset($_GET['page']) &&
+            is_numeric($_GET['page']) &&
+            (int)$_GET['page'] > 0
+        ) {
+            $page = (int) $_GET['page'];
+        }
+
+        $perPage = 10;
+
+        $totalProducts = $this->productModel->countAll();
+        $totalPages    = (int) ceil($totalProducts / $perPage);
+
+        $products = $this->productModel->getPageWithType($page, $perPage);
+
         include __DIR__ . '/../views/admin/product/index.php';
     }
 

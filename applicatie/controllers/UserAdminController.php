@@ -15,11 +15,17 @@ class UserAdminController
 
     public function index(): void
     {
-        $page = isset($_GET['page']) && (int)$_GET['page'] > 0
-            ? (int)$_GET['page']
-            : 1;
-        $perPage = 20;
+        $page = 1;
+        
+        if (
+            isset($_GET['page']) &&
+            is_numeric($_GET['page']) &&
+            (int)$_GET['page'] > 0
+        ) {
+            $page = (int) $_GET['page'];
+        }
 
+        $perPage = 20;
 
         $totalUsers = $this->userModel->countAll();
         $users       = $this->userModel->getPage($page, $perPage);

@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="nl">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,6 +9,7 @@
     <link rel="stylesheet" href="/public/css/navbar.css">
     <link rel="stylesheet" href="/public/css/pagination.css">
 </head>
+
 <body>
     <?php include __DIR__ . '/../../layout/navbar.php'; ?>
 
@@ -51,7 +53,6 @@
                 </tbody>
             </table>
 
-            <!-- PAGINATIE -->
             <?php if ($totalPages > 1): ?>
                 <nav class="pagination">
                     <?php if ($page > 1): ?>
@@ -78,4 +79,5 @@
         <?php endif; ?>
     </div>
 </body>
+
 </html>

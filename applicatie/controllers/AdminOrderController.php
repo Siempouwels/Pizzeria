@@ -11,9 +11,16 @@ class AdminOrderController
     {
         $orderModel = new Order();
 
-        $page    = isset($_GET['page']) && (int)$_GET['page'] > 0
-            ? (int)$_GET['page']
-            : 1;
+        $page = 1;
+        
+        if (
+            isset($_GET['page']) &&
+            is_numeric($_GET['page']) &&
+            (int)$_GET['page'] > 0
+        ) {
+            $page = (int) $_GET['page'];
+        }
+
         $perPage = 5;
 
         try {

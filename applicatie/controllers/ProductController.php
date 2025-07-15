@@ -27,9 +27,18 @@ class ProductController
         $errors  = [];
         $success = false;
 
-        $page    = isset($_GET['page']) && (int)$_GET['page'] > 0
-            ? (int)$_GET['page'] : 1;
-        $perPage = 5;
+
+        $page = 1;
+
+        if (
+            isset($_GET['page']) &&
+            is_numeric($_GET['page']) &&
+            (int)$_GET['page'] > 0
+        ) {
+            $page = (int) $_GET['page'];
+        }
+
+        $perPage = 10;
 
         try {
             $totalItems  = $this->productModel->countAll();
